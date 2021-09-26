@@ -1,4 +1,4 @@
-package com.pix;
+package com.dunkbing.pix;
 
 import com.facebook.react.ReactActivity;
 

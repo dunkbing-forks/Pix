@@ -7,7 +7,6 @@ import Rate from 'react-native-rate';
 import styled from 'styled-components/native';
 
 import ActionMenu from '../components/ActionMenu';
-import { RateOptions } from '../config';
 import User from '../stores/User';
 
 const Wrapper = styled.ScrollView``;
@@ -56,7 +55,7 @@ const Settings = observer(() => {
         thumbIcon: 'Star',
         thumbColor: '#4DB3FF',
         action: () => {
-          Rate.rate(RateOptions || {}, (success) => {
+          Rate.rate({}, (success) => {
             if (success) {
               // user went to the review page
             }
