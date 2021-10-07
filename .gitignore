@@ -28,6 +28,7 @@ build/
 .gradle
 local.properties
 *.iml
+.settings
 
 # node.js
 #
@@ -61,6 +62,11 @@ buck-out/
 # Api keys
 src/config.ts
 GoogleService-Info.plist
+google-services.json
 
 # vscode
+.vscode
+
+# misc
 .project
+*.hprof

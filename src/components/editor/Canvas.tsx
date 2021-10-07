@@ -1,15 +1,8 @@
 import React from 'react';
-import { PanResponder } from 'react-native';
+import { GestureResponderEvent, PanResponder } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
-
-import {
-  EDITOR_BORDER_SIZE,
-  HEADER_HEIGHT,
-  PIXEL_COUNT,
-  PIXEL_SIZE,
-  TOOLS
-} from '../../constants';
+import { EDITOR_BORDER_SIZE, HEADER_HEIGHT, PIXEL_COUNT, PIXEL_SIZE, TOOLS } from '../../constants';
 import { dropBucket } from '../../helpers';
 import { Pixel } from '../../types';
 
@@ -28,8 +21,7 @@ const Grid = styled.View`
 `;
 
 const PixelBlock = styled.View`
-  background: ${({ color, backgroundColor }) =>
-    color === 'none' ? backgroundColor : color};
+  background: ${({ color, backgroundColor }) => (color === 'none' ? backgroundColor : color)};
   height: ${PIXEL_SIZE}px;
   width: ${PIXEL_SIZE}px;
   ${({ displayGrid, index }) =>
@@ -51,47 +43,30 @@ interface Props {
   displayGrid: boolean;
 }
 
-const Canvas = ({
-  backgroundColor,
-  data,
-  updateData,
-  currentColor,
-  displayGrid,
-  selectedTool
-}: Props) => {
+const Canvas: React.FC<Props> = ({ backgroundColor, data, updateData, currentColor, displayGrid, selectedTool }) => {
   const insets = useSafeAreaInsets();
 
-  const updateCanvas = (evt) => {
+  const updateCanvas = (evt: GestureResponderEvent) => {
     if (evt.nativeEvent.pageX > EDITOR_BORDER_SIZE + PIXEL_SIZE * PIXEL_COUNT) {
       return;
     }
     const tx = evt.nativeEvent.pageX - EDITOR_BORDER_SIZE;
-    const ty =
-      evt.nativeEvent.pageY - EDITOR_BORDER_SIZE - HEADER_HEIGHT - insets.top;
+    const ty = evt.nativeEvent.pageY - EDITOR_BORDER_SIZE - HEADER_HEIGHT - insets.top;
     const px = Math.trunc(tx / PIXEL_SIZE);
     const py = Math.trunc(ty / PIXEL_SIZE);
     const arrayPosition = py * PIXEL_COUNT + px;
     if (arrayPosition + 1 > data.length || arrayPosition < 0) {
       return;
     }
-    if (
-      data[arrayPosition].color ===
-      (selectedTool === TOOLS.ERASER ? 'none' : currentColor)
-    ) {
+    if (data[arrayPosition].color === (selectedTool === TOOLS.ERASER ? 'none' : currentColor)) {
       return;
     }
     let newData = data;
     if (selectedTool === TOOLS.BUCKET) {
-      newData = dropBucket(
-        newData,
-        arrayPosition,
-        currentColor,
-        data[arrayPosition].color,
-        newData
-      );
+      newData = dropBucket(newData, arrayPosition, currentColor, data[arrayPosition].color, newData);
     } else {
       newData[arrayPosition] = {
-        color: selectedTool === TOOLS.PENCIL ? currentColor : 'none'
+        color: selectedTool === TOOLS.PENCIL ? currentColor : 'none',
       };
     }
     updateData([...newData]);
@@ -108,7 +83,7 @@ const Canvas = ({
       updateCanvas(evt);
     },
     onPanResponderTerminationRequest: () => true,
-    onShouldBlockNativeResponder: () => true
+    onShouldBlockNativeResponder: () => true,
   });
   return (
     <Wrapper backgroundColor={backgroundColor}>

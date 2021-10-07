@@ -1,9 +1,9 @@
-import {makeObservable, observable, action, runInAction} from 'mobx';
-import {createContext} from 'react';
-import {Alert} from 'react-native';
-import {MONTHS, SORT, STATES} from '../constants';
+import { makeObservable, observable, action, runInAction } from 'mobx';
+import { createContext } from 'react';
+import { Alert } from 'react-native';
+import { MONTHS, STATES } from '../constants';
 import firestore from '@react-native-firebase/firestore';
-import {firebase} from '@react-native-firebase/auth';
+import { firebase } from '@react-native-firebase/auth';
 
 const PAGE_ITEMS = 5;
 
@@ -56,7 +56,7 @@ class Challenge {
         .get();
       const newChallenges = [];
       snapshot.forEach((doc) => {
-        newChallenges.push({...doc.data(), id: doc.id});
+        newChallenges.push({ ...doc.data(), id: doc.id });
       });
       this.lastSnapshot = snapshot.docs[snapshot.docs.length - 1];
       runInAction(() => {
@@ -89,7 +89,7 @@ class Challenge {
 
         const newFeed = [];
         snapshot.forEach((doc) => {
-          newFeed.push({...doc.data(), id: doc.id});
+          newFeed.push({ ...doc.data(), id: doc.id });
         });
         this.lastSnapshot = snapshot.docs[snapshot.docs.length - 1];
         runInAction(() => {
@@ -110,12 +110,12 @@ class Challenge {
     if (likes.includes(userId)) {
       likesRef.update({
         likes: firebase.firestore.FieldValue.arrayRemove(userId),
-        likesCount: firebase.firestore.FieldValue.increment(-1),
+        likesCount: firebase.firestore.FieldValue.increment(-1)
       });
     } else {
       likesRef.update({
         likes: firebase.firestore.FieldValue.arrayUnion(userId),
-        likesCount: firebase.firestore.FieldValue.increment(1),
+        likesCount: firebase.firestore.FieldValue.increment(1)
       });
     }
     const newPostData = await firestore().collection('Posts').doc(postId).get();
@@ -141,11 +141,11 @@ class Challenge {
   async reportPost(postId) {
     const postRef = firestore().collection('Posts').doc(postId);
     await postRef.update({
-      reports: firebase.firestore.FieldValue.increment(1),
+      reports: firebase.firestore.FieldValue.increment(1)
     });
     Alert.alert(
       'Thank you for your report!',
-      'You are making the App a friendlier place for everyone.',
+      'You are making the App a friendlier place for everyone.'
     );
   }
 }
