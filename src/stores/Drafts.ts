@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import {makeObservable, observable, action} from 'mobx';
-import {createContext} from 'react';
+import { makeObservable, observable, action } from 'mobx';
+import { createContext } from 'react';
 
-import {Pixel} from '../types';
+import { Pixel } from '../types';
 
 class Drafts {
   constructor() {
@@ -18,7 +18,7 @@ class Drafts {
   drafts = [];
 
   addDraft = (data: Pixel[], backgroundColor: string) => {
-    this.drafts.push({data: {pixels: data, backgroundColor}});
+    this.drafts.push({ data: { pixels: data, backgroundColor } });
     this.saveData();
   };
 
@@ -43,7 +43,7 @@ class Drafts {
         '@Pix:drafts',
         JSON.stringify({
           drafts: this.drafts,
-        }),
+        })
       );
     } catch (error) {}
   };

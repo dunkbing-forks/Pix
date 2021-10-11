@@ -9,12 +9,7 @@ import SplashScreen from 'react-native-splash-screen';
 import { ThemeProvider } from 'styled-components/native';
 
 import { getColorScheme } from './src/helpers';
-import {
-  EditorStack,
-  LoginStack,
-  RootStack,
-  TabsStack
-} from './src/navigation';
+import { EditorStack, LoginStack, RootStack, TabsStack } from './src/navigation';
 import AppState from './src/stores/AppState';
 import Challenge from './src/stores/Challenge';
 import Images from './src/stores/Images';
@@ -47,17 +42,13 @@ const App = observer(() => {
         <SafeAreaProvider>
           <NavigationContainer theme={theme}>
             <StatusBar barStyle={statusBarStyle} />
-            <RootStack.Navigator mode="modal">
+            <RootStack.Navigator mode='modal'>
+              <RootStack.Screen name='Main' component={TabsStack} options={{ headerShown: false }} />
               <RootStack.Screen
-                name="Main"
-                component={TabsStack}
-                options={{ headerShown: false }}
-              />
-              <RootStack.Screen
-                name="EditorModal"
+                name='EditorModal'
                 options={{
                   headerShown: false,
-                  stackPresentation: 'fullScreenModal'
+                  stackPresentation: 'fullScreenModal',
                 }}
                 component={userStore.user ? EditorStack : LoginStack}
               />

@@ -30,22 +30,13 @@ interface Props {
   hideAction?: boolean;
 }
 
-const Empty = ({
-  actionTitle = 'Create your first artwork!',
-  hideAction = false
-}: Props) => {
+const Empty = ({ actionTitle = 'Create your first artwork!', hideAction = false }: Props) => {
   const navigation = useNavigation();
   return (
     <Wrapper>
       <Image source={Cactus} />
       <InfosText>There's nothing to show here yet!</InfosText>
-      {!hideAction && (
-        <Button
-          onPress={() => navigation.navigate('EditorModal')}
-          fill={false}
-          title={actionTitle}
-        />
-      )}
+      {!hideAction && <Button onPress={() => navigation.navigate('EditorModal')} fill={false} title={actionTitle} />}
     </Wrapper>
   );
 };

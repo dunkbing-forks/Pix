@@ -82,13 +82,11 @@ const EditProfile = () => {
     const update = {
       displayName: username,
       avatar,
-      badges: []
+      badges: [],
     };
     auth()
       .currentUser.updateProfile(update)
-      .then(() =>
-        firestore().collection('Users').doc(userStore.user.uid).update(update)
-      )
+      .then(() => firestore().collection('Users').doc(userStore.user.uid).update(update))
       .then(() => {
         setStatus(STATES.SUCCESS);
       })
@@ -102,10 +100,7 @@ const EditProfile = () => {
     auth()
       .sendPasswordResetEmail(userStore.user.email)
       .then(() => {
-        Alert.alert(
-          'Check your mailbox!',
-          'We sent you an email to help you reset your password.'
-        );
+        Alert.alert('Check your mailbox!', 'We sent you an email to help you reset your password.');
         setStatus(STATES.IDLE);
       })
       .catch(() => {
@@ -124,7 +119,7 @@ const EditProfile = () => {
 
   const animatedShadowOpacity = Animated.interpolate(fall, {
     inputRange: [0, 1],
-    outputRange: [0.5, 0]
+    outputRange: [0.5, 0],
   });
 
   const categories = {};
@@ -148,16 +143,16 @@ const EditProfile = () => {
             setDrawerShown(true);
             sheetRef.current.snapTo(0);
           }}
-          title="Edit profile picture"
+          title='Edit profile picture'
           fill={false}
           style={{ width: 163, marginTop: 10, marginBottom: 30 }}
         />
         <Label>Username</Label>
         <TextInput
           value={username}
-          placeholder="New username"
+          placeholder='New username'
           maxLength={20}
-          autoCapitalize="none"
+          autoCapitalize='none'
           placeholderTextColor={colors.secondaryText}
           onChangeText={setUsername}
           style={{ color: colors.text }}
@@ -165,47 +160,37 @@ const EditProfile = () => {
         <Label>Your email</Label>
         <TextInput
           value={userStore.user.email}
-          placeholder="New email"
+          placeholder='New email'
           editable={false}
-          autoCapitalize="none"
+          autoCapitalize='none'
           placeholderTextColor={colors.secondaryText}
           onChangeText={setUsername}
           style={{ color: colors.secondaryText }}
         />
         <Label>Your password</Label>
         <TextInput
-          value="xxxxxxxxx"
-          autoCapitalize="none"
+          value='xxxxxxxxx'
+          autoCapitalize='none'
           editable={false}
           placeholderTextColor={colors.secondaryText}
           onChangeText={() => {}}
           secureTextEntry
           style={{ color: colors.secondaryText }}
         />
-        <TouchableOpacity
-          onPress={resetPassword}
-          disabled={status === STATES.LOADING}
-        >
+        <TouchableOpacity onPress={resetPassword} disabled={status === STATES.LOADING}>
           <ResetPassword>Reset your password</ResetPassword>
         </TouchableOpacity>
         <Button
           onPress={update}
-          title="Save modifications"
+          title='Save modifications'
           loading={status === STATES.LOADING}
           style={{ marginTop: 40 }}
           disabled={status === STATES.LOADING}
         />
         {status === STATES.ERROR && (
-          <StatusText color={colors.error}>
-            We’re having some troubles updating your profile 😥{'\n'}Try again
-            later!
-          </StatusText>
+          <StatusText color={colors.error}>We’re having some troubles updating your profile 😥{'\n'}Try again later!</StatusText>
         )}
-        {status === STATES.SUCCESS && (
-          <StatusText color={colors.success}>
-            Your modifications have been saved !
-          </StatusText>
-        )}
+        {status === STATES.SUCCESS && <StatusText color={colors.success}>Your modifications have been saved !</StatusText>}
         <Footer>ID - {userStore.user.uid}</Footer>
       </Wrapper>
       <BottomSheet
@@ -220,7 +205,7 @@ const EditProfile = () => {
       <OpacityView
         pointerEvents={drawerShown ? 'auto' : 'none'}
         style={{
-          opacity: animatedShadowOpacity
+          opacity: animatedShadowOpacity,
         }}
       />
     </>

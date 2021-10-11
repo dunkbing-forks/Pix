@@ -1,8 +1,4 @@
-import {
-  useFocusEffect,
-  useNavigation,
-  useTheme
-} from '@react-navigation/native';
+import { useFocusEffect, useNavigation, useTheme } from '@react-navigation/native';
 import React, { useState, useContext, useEffect } from 'react';
 import { ScrollView, Alert, TouchableOpacity, Dimensions } from 'react-native';
 import ColorPicker from 'react-native-color-picker-ios';
@@ -20,11 +16,7 @@ import IconButton from '../components/IconButton';
 import { TOOLS } from '../constants';
 import { getInitialCanvasData } from '../helpers';
 import Drafts from '../stores/Drafts';
-import {
-  DEFAULT_EDITOR_BACKGROUND_COLOR,
-  DEFAULT_EDITOR_COLOR_PALETTE,
-  PALETTES
-} from '../theme';
+import { DEFAULT_EDITOR_BACKGROUND_COLOR, DEFAULT_EDITOR_COLOR_PALETTE, PALETTES } from '../theme';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
@@ -65,8 +57,7 @@ const IconWrapper = styled.TouchableOpacity<{
   justify-content: center;
   border-radius: 30px;
   opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
-  background: ${({ theme, active }) =>
-    active ? theme.accent : theme.background};
+  background: ${({ theme, active }) => (active ? theme.accent : theme.background)};
 `;
 
 const OpacityView = styled(Animated.View)`
@@ -84,7 +75,7 @@ let history: Pixel[][] = [];
 let fall = new Animated.Value(1);
 const animatedShadowOpacity = Animated.interpolate(fall, {
   inputRange: [0, 1],
-  outputRange: [0.5, 0]
+  outputRange: [0.5, 0],
 });
 
 const Editor = ({ route }) => {
@@ -96,22 +87,15 @@ const Editor = ({ route }) => {
   const [selectedTool, setSelectedTool] = useState(TOOLS.PENCIL);
   const [displayDrawTab, setDisplayDrawTab] = useState(true);
   const [displayGrid, setdisplayGrid] = useState(true);
-  const [colorPalette, setColorPalette] = useState(
-    PALETTES[DEFAULT_EDITOR_COLOR_PALETTE].colors
-  );
+  const [colorPalette, setColorPalette] = useState(PALETTES[DEFAULT_EDITOR_COLOR_PALETTE].colors);
   const [currentColor, setCurrentColor] = useState(colorPalette[0]);
   const [drawerShown, setDrawerShown] = useState(false);
-  const [backgroundColor, setBackgroundColor] = useState(
-    DEFAULT_EDITOR_BACKGROUND_COLOR
-  );
+  const [backgroundColor, setBackgroundColor] = useState(DEFAULT_EDITOR_BACKGROUND_COLOR);
 
   useFocusEffect(
     React.useCallback(() => {
       setCanvasData(route.params?.data?.data?.pixels || getInitialCanvasData());
-      setBackgroundColor(
-        route.params?.data?.data?.backgroundColor ||
-          DEFAULT_EDITOR_BACKGROUND_COLOR
-      );
+      setBackgroundColor(route.params?.data?.data?.backgroundColor || DEFAULT_EDITOR_BACKGROUND_COLOR);
     }, [route.params])
   );
 
@@ -158,15 +142,15 @@ const Editor = ({ route }) => {
                     {
                       text: 'No thanks',
                       onPress: goBack,
-                      style: 'destructive'
+                      style: 'destructive',
                     },
                     {
                       text: 'Sure!',
                       onPress: () => {
                         draftsStore.addDraft(canvasData, backgroundColor);
                         goBack();
-                      }
-                    }
+                      },
+                    },
                   ],
                   { cancelable: false }
                 );
@@ -175,10 +159,10 @@ const Editor = ({ route }) => {
               }
             }}
           >
-            <Icon name="Cross" size={22} color={colors.text} />
+            <Icon name='Cross' size={22} color={colors.text} />
           </TouchableOpacity>
         }
-        title="Create"
+        title='Create'
       />
       <Wrapper>
         <Canvas
@@ -190,43 +174,17 @@ const Editor = ({ route }) => {
           selectedTool={selectedTool}
         />
         <Row>
-          <IconButton
-            icon="Palette"
-            title="Draw"
-            onPress={() => setDisplayDrawTab(true)}
-            active={displayDrawTab}
-            color="accent"
-          />
-          <IconButton
-            icon="Bucket"
-            title="Background"
-            onPress={() => setDisplayDrawTab(false)}
-            active={!displayDrawTab}
-            color="accent"
-          />
+          <IconButton icon='Palette' title='Draw' onPress={() => setDisplayDrawTab(true)} active={displayDrawTab} color='accent' />
+          <IconButton icon='Bucket' title='Background' onPress={() => setDisplayDrawTab(false)} active={!displayDrawTab} color='accent' />
         </Row>
         <Row style={{ justifyContent: 'space-around' }}>
           {displayDrawTab ? (
             <>
-              <IconWrapper
-                active={selectedTool === TOOLS.PENCIL}
-                onPress={() => setSelectedTool(TOOLS.PENCIL)}
-              >
-                <Icon
-                  name="Pencil"
-                  size={24}
-                  color={selectedTool === TOOLS.PENCIL ? '#fff' : colors.text}
-                />
+              <IconWrapper active={selectedTool === TOOLS.PENCIL} onPress={() => setSelectedTool(TOOLS.PENCIL)}>
+                <Icon name='Pencil' size={24} color={selectedTool === TOOLS.PENCIL ? '#fff' : colors.text} />
               </IconWrapper>
-              <IconWrapper
-                active={selectedTool === TOOLS.BUCKET}
-                onPress={() => setSelectedTool(TOOLS.BUCKET)}
-              >
-                <Icon
-                  name="Bucket"
-                  size={24}
-                  color={selectedTool === TOOLS.BUCKET ? '#fff' : colors.text}
-                />
+              <IconWrapper active={selectedTool === TOOLS.BUCKET} onPress={() => setSelectedTool(TOOLS.BUCKET)}>
+                <Icon name='Bucket' size={24} color={selectedTool === TOOLS.BUCKET ? '#fff' : colors.text} />
               </IconWrapper>
               <IconWrapper
                 active={false}
@@ -238,29 +196,15 @@ const Editor = ({ route }) => {
                   }
                 }}
               >
-                <Icon name="Undo" size={24} color={colors.text} />
+                <Icon name='Undo' size={24} color={colors.text} />
               </IconWrapper>
-              <IconWrapper
-                active={selectedTool === TOOLS.ERASER}
-                onPress={() => setSelectedTool(TOOLS.ERASER)}
-              >
-                <Icon
-                  name="Eraser"
-                  size={24}
-                  color={selectedTool === TOOLS.ERASER ? '#fff' : colors.text}
-                />
+              <IconWrapper active={selectedTool === TOOLS.ERASER} onPress={() => setSelectedTool(TOOLS.ERASER)}>
+                <Icon name='Eraser' size={24} color={selectedTool === TOOLS.ERASER ? '#fff' : colors.text} />
               </IconWrapper>
             </>
           ) : (
-            <IconWrapper
-              active={displayGrid}
-              onPress={() => setdisplayGrid(!displayGrid)}
-            >
-              <Icon
-                name="Grid"
-                size={24}
-                color={displayGrid ? '#fff' : colors.text}
-              />
+            <IconWrapper active={displayGrid} onPress={() => setdisplayGrid(!displayGrid)}>
+              <Icon name='Grid' size={24} color={displayGrid ? '#fff' : colors.text} />
             </IconWrapper>
           )}
         </Row>
@@ -270,16 +214,13 @@ const Editor = ({ route }) => {
               color={colors.background}
               selected={false}
               onPress={() => {
-                ColorPicker.showColorPicker(
-                  { supportsAlpha: false, initialColor: currentColor },
-                  (color) => {
-                    setColorPalette([color, ...colorPalette]);
-                    setCurrentColor(color);
-                  }
-                );
+                ColorPicker.showColorPicker({ supportsAlpha: false, initialColor: currentColor }, (color) => {
+                  setColorPalette([color, ...colorPalette]);
+                  setCurrentColor(color);
+                });
               }}
             >
-              <Icon name="Plus" color={colors.text} />
+              <Icon name='Plus' color={colors.text} />
             </ColorDrop>
             {colorPalette.map((color, index) => (
               <ColorDrop
@@ -295,18 +236,14 @@ const Editor = ({ route }) => {
                   }
                 }}
                 color={color}
-                selected={
-                  selectedTool !== TOOLS.ERASER && displayDrawTab
-                    ? color === currentColor
-                    : color === backgroundColor
-                }
+                selected={selectedTool !== TOOLS.ERASER && displayDrawTab ? color === currentColor : color === backgroundColor}
               />
             ))}
           </Row>
         </ScrollView>
         <Row>
           <Button
-            title="Change color palette"
+            title='Change color palette'
             onPress={() => {
               setDrawerShown(true);
               sheetRef.current.snapTo(0);
@@ -333,7 +270,7 @@ const Editor = ({ route }) => {
       <OpacityView
         pointerEvents={drawerShown ? 'auto' : 'none'}
         style={{
-          opacity: animatedShadowOpacity
+          opacity: animatedShadowOpacity,
         }}
       />
     </>

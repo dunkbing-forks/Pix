@@ -54,7 +54,7 @@ const Home = observer(() => {
 
   const OptionsLink = (
     <Pressable onPress={() => navigation.navigate('Settings')}>
-      <Icon name="Settings" size={25} color={colors.text} />
+      <Icon name='Settings' size={25} color={colors.text} />
     </Pressable>
   );
 
@@ -85,43 +85,27 @@ const Home = observer(() => {
 
   return (
     <>
-      <CustomHeader
-        title={userStore.isAdmin ? '🔨 Admin Mode' : 'Pix'}
-        rightComponent={userStore.user ? UserAvatar : OptionsLink}
-      />
+      <CustomHeader title={userStore.isAdmin ? '🔨 Admin Mode' : 'Pix'} rightComponent={userStore.user ? UserAvatar : OptionsLink} />
       <Row>
+        <IconButton title='Trending' onPress={() => changeSort('likesCount')} active={feedStore.sort === 'likesCount'} icon='TrendingUp' />
         <IconButton
-          title="Trending"
-          onPress={() => changeSort('likesCount')}
-          active={feedStore.sort === 'likesCount'}
-          icon="TrendingUp"
-        />
-        <IconButton
-          title="New"
+          title='New'
           onPress={() => changeSort('timestamp')}
           active={feedStore.sort === 'timestamp'}
-          color="yellow"
-          icon="Star"
+          color='yellow'
+          icon='Star'
         />
       </Row>
       <FlatList
         contentContainerStyle={{ padding: SCREEN_PADDING }}
         refreshControl={
-          <RefreshControl
-            refreshing={feedStore.state === STATES.LOADING}
-            onRefresh={load}
-            tintColor={colors.secondaryText}
-          />
+          <RefreshControl refreshing={feedStore.state === STATES.LOADING} onRefresh={load} tintColor={colors.secondaryText} />
         }
         data={feedStore.feed}
         renderItem={ListItem}
         keyExtractor={(item) => item.id}
         onEndReachedThreshold={0.2}
-        ListEmptyComponent={() =>
-          feedStore.state !== STATES.LOADING ? (
-            <Empty actionTitle="Add the first ever pixel art!" />
-          ) : null
-        }
+        ListEmptyComponent={() => (feedStore.state !== STATES.LOADING ? <Empty actionTitle='Add the first ever pixel art!' /> : null)}
         onEndReached={() => feedStore.loadMore()}
         removeClippedSubviews
       />

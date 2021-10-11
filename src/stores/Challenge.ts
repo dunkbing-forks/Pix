@@ -72,11 +72,7 @@ class Challenge {
   }
 
   async loadMore() {
-    if (
-      this.state !== STATES.LOADING &&
-      this.state !== STATES.LOADING_BACKGROUND &&
-      this.lastSnapshot
-    ) {
+    if (this.state !== STATES.LOADING && this.state !== STATES.LOADING_BACKGROUND && this.lastSnapshot) {
       this.state = STATES.LOADING_BACKGROUND;
       try {
         const snapshot = await firestore()
@@ -110,22 +106,18 @@ class Challenge {
     if (likes.includes(userId)) {
       likesRef.update({
         likes: firebase.firestore.FieldValue.arrayRemove(userId),
-        likesCount: firebase.firestore.FieldValue.increment(-1)
+        likesCount: firebase.firestore.FieldValue.increment(-1),
       });
     } else {
       likesRef.update({
         likes: firebase.firestore.FieldValue.arrayUnion(userId),
-        likesCount: firebase.firestore.FieldValue.increment(1)
+        likesCount: firebase.firestore.FieldValue.increment(1),
       });
     }
     const newPostData = await firestore().collection('Posts').doc(postId).get();
     runInAction(() => {
-      this.challenges[
-        this.challenges.findIndex((i) => i.id === postId)
-      ].likes = newPostData.data().likes;
-      this.challenges[
-        this.challenges.findIndex((i) => i.id === postId)
-      ].likesCount = newPostData.data().likesCount;
+      this.challenges[this.challenges.findIndex((i) => i.id === postId)].likes = newPostData.data().likes;
+      this.challenges[this.challenges.findIndex((i) => i.id === postId)].likesCount = newPostData.data().likesCount;
     });
   }
 
@@ -141,12 +133,9 @@ class Challenge {
   async reportPost(postId) {
     const postRef = firestore().collection('Posts').doc(postId);
     await postRef.update({
-      reports: firebase.firestore.FieldValue.increment(1)
+      reports: firebase.firestore.FieldValue.increment(1),
     });
-    Alert.alert(
-      'Thank you for your report!',
-      'You are making the App a friendlier place for everyone.'
-    );
+    Alert.alert('Thank you for your report!', 'You are making the App a friendlier place for everyone.');
   }
 }
 

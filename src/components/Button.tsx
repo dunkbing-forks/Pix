@@ -30,30 +30,12 @@ interface Props {
   loading?: boolean;
 }
 
-const Button = ({
-  onPress,
-  title,
-  fill = true,
-  style,
-  loading = false,
-  disabled = false
-}: Props) => {
+const Button = ({ onPress, title, fill = true, style, loading = false, disabled = false }: Props) => {
   const { colors } = useTheme();
 
   return (
-    <Wrapper
-      style={{ ...style }}
-      onPress={onPress}
-      fill={fill}
-      disabled={disabled || loading}
-    >
-      {loading ? (
-        <ActivityIndicator
-          color={fill ? colors.secondary : colors.secondaryText}
-        />
-      ) : (
-        <Title fill={fill}>{title}</Title>
-      )}
+    <Wrapper style={{ ...style }} onPress={onPress} fill={fill} disabled={disabled || loading}>
+      {loading ? <ActivityIndicator color={fill ? colors.secondary : colors.secondaryText} /> : <Title fill={fill}>{title}</Title>}
     </Wrapper>
   );
 };

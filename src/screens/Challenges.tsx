@@ -1,13 +1,7 @@
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect } from 'react';
-import {
-  View,
-  TouchableOpacity,
-  Pressable,
-  RefreshControl,
-  FlatList
-} from 'react-native';
+import { View, TouchableOpacity, Pressable, RefreshControl, FlatList } from 'react-native';
 import styled from 'styled-components/native';
 
 import Avatar from '../components/Avatar';
@@ -57,7 +51,7 @@ const Challenges = observer(() => {
 
   const OptionsLink = (
     <Pressable onPress={() => navigation.navigate('Settings')}>
-      <Icon name="Settings" size={25} color={colors.text} />
+      <Icon name='Settings' size={25} color={colors.text} />
     </Pressable>
   );
 
@@ -70,11 +64,7 @@ const Challenges = observer(() => {
       likesCount={item.likesCount}
       onLike={() => {
         if (userStore.user?.uid) {
-          challengeStore.likePost(
-            item.id,
-            userStore.user.uid,
-            item.likes || []
-          );
+          challengeStore.likePost(item.id, userStore.user.uid, item.likes || []);
         } else {
           navigation.navigate('EditorModal');
         }
@@ -92,50 +82,35 @@ const Challenges = observer(() => {
 
   return (
     <View style={{ flex: 1 }}>
-      <CustomHeader
-        title="Pix - Challenges"
-        rightComponent={userStore.user ? UserAvatar : OptionsLink}
-      />
+      <CustomHeader title='Pix - Challenges' rightComponent={userStore.user ? UserAvatar : OptionsLink} />
       <Row>
         <IconButton
-          title="Submissions"
+          title='Submissions'
           onPress={() => changeSort('timestamp')}
           active={challengeStore.sort === 'timestamp'}
-          icon="TrendingUp"
+          icon='TrendingUp'
         />
         <IconButton
-          title="Hall of fame"
+          title='Hall of fame'
           onPress={() => changeSort('likesCount')}
           active={challengeStore.sort === 'likesCount'}
-          color="yellow"
-          icon="Star"
+          color='yellow'
+          icon='Star'
         />
       </Row>
       <FlatList
         contentContainerStyle={{ padding: SCREEN_PADDING }}
         refreshControl={
-          <RefreshControl
-            refreshing={challengeStore.state === STATES.LOADING}
-            onRefresh={load}
-            tintColor={colors.secondaryText}
-          />
+          <RefreshControl refreshing={challengeStore.state === STATES.LOADING} onRefresh={load} tintColor={colors.secondaryText} />
         }
-        ListHeaderComponent={
-          <CurrentChallengeCard
-            challengeTitle={challengeStore.currentChallenge?.title}
-          />
-        }
+        ListHeaderComponent={<CurrentChallengeCard challengeTitle={challengeStore.currentChallenge?.title} />}
         data={challengeStore.challenges}
         renderItem={ListItem}
         keyExtractor={(item) => item.id}
         onEndReachedThreshold={0.2}
         onEndReached={() => challengeStore.loadMore()}
         removeClippedSubviews
-        ListEmptyComponent={() =>
-          challengeStore.state !== STATES.LOADING ? (
-            <Empty actionTitle="Add the first entry" />
-          ) : null
-        }
+        ListEmptyComponent={() => (challengeStore.state !== STATES.LOADING ? <Empty actionTitle='Add the first entry' /> : null)}
       />
     </View>
   );

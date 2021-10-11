@@ -1,9 +1,9 @@
-import {makeObservable, observable, action, runInAction} from 'mobx';
-import {createContext} from 'react';
-import {STATES} from '../constants';
+import { makeObservable, observable, action, runInAction } from 'mobx';
+import { createContext } from 'react';
+import { STATES } from '../constants';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import {listFilesAndDirectories} from '../helpers';
+import { listFilesAndDirectories } from '../helpers';
 
 class Images {
   constructor() {
@@ -20,7 +20,7 @@ class Images {
   avatarPaths = [];
 
   listFilesAndDirectories(reference, pageToken?) {
-    return reference.list({pageToken}).then((result) => {
+    return reference.list({ pageToken }).then((result) => {
       result.items.forEach((ref) => {
         // Only store avatar paths (needed for profile edition)
         if (ref.fullPath.includes('avatars')) {
@@ -38,18 +38,12 @@ class Images {
     const reference = storage().ref('avatars');
     this.listFilesAndDirectories(reference).then(() => {
       this.avatarPaths.forEach(async (avatarPath) => {
-        const name = avatarPath.substring(
-          avatarPath.lastIndexOf('/') + 1,
-          avatarPath.lastIndexOf('.'),
-        );
+        const name = avatarPath.substring(avatarPath.lastIndexOf('/') + 1, avatarPath.lastIndexOf('.'));
         const url = await storage().ref(avatarPath).getDownloadURL();
 
         const avatarData = {
           cloudPath: avatarPath,
-          category: `${avatarPath.substring(
-            avatarPath.lastIndexOf('/') + 1,
-            avatarPath.lastIndexOf('-'),
-          )}s`,
+          category: `${avatarPath.substring(avatarPath.lastIndexOf('/') + 1, avatarPath.lastIndexOf('-'))}s`,
           url,
         };
         runInAction(() => {

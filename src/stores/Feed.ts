@@ -1,9 +1,9 @@
-import {makeObservable, observable, action, runInAction} from 'mobx';
-import {createContext} from 'react';
-import {Alert} from 'react-native';
-import {STATES} from '../constants';
+import { makeObservable, observable, action, runInAction } from 'mobx';
+import { createContext } from 'react';
+import { Alert } from 'react-native';
+import { STATES } from '../constants';
 import firestore from '@react-native-firebase/firestore';
-import {firebase} from '@react-native-firebase/auth';
+import { firebase } from '@react-native-firebase/auth';
 
 const PAGE_ITEMS = 5;
 
@@ -29,15 +29,11 @@ class Feed {
   async loadFeed() {
     this.state = STATES.LOADING;
     try {
-      const snapshot = await firestore()
-        .collection('Posts')
-        .orderBy(this.sort, 'desc')
-        .limit(PAGE_ITEMS)
-        .get();
+      const snapshot = await firestore().collection('Posts').orderBy(this.sort, 'desc').limit(PAGE_ITEMS).get();
 
       const newFeed = [];
       snapshot.forEach((doc) => {
-        newFeed.push({...doc.data(), id: doc.id});
+        newFeed.push({ ...doc.data(), id: doc.id });
       });
       this.lastSnapshot = snapshot.docs[snapshot.docs.length - 1];
       runInAction(() => {
@@ -53,11 +49,7 @@ class Feed {
   }
 
   async loadMore() {
-    if (
-      this.state !== STATES.LOADING &&
-      this.state !== STATES.LOADING_BACKGROUND &&
-      this.lastSnapshot
-    ) {
+    if (this.state !== STATES.LOADING && this.state !== STATES.LOADING_BACKGROUND && this.lastSnapshot) {
       this.state = STATES.LOADING_BACKGROUND;
       try {
         const snapshot = await firestore()
@@ -69,7 +61,7 @@ class Feed {
 
         const newFeed = [];
         snapshot.forEach((doc) => {
-          newFeed.push({...doc.data(), id: doc.id});
+          newFeed.push({ ...doc.data(), id: doc.id });
         });
         this.lastSnapshot = snapshot.docs[snapshot.docs.length - 1];
         runInAction(() => {
@@ -100,12 +92,8 @@ class Feed {
     }
     const newPostData = await firestore().collection('Posts').doc(postId).get();
     runInAction(() => {
-      this.feed[
-        this.feed.findIndex((i) => i.id === postId)
-      ].likes = newPostData.data().likes;
-      this.feed[
-        this.feed.findIndex((i) => i.id === postId)
-      ].likesCount = newPostData.data().likesCount;
+      this.feed[this.feed.findIndex((i) => i.id === postId)].likes = newPostData.data().likes;
+      this.feed[this.feed.findIndex((i) => i.id === postId)].likesCount = newPostData.data().likesCount;
     });
   }
 
@@ -123,10 +111,7 @@ class Feed {
     await postRef.update({
       reports: firebase.firestore.FieldValue.increment(1),
     });
-    Alert.alert(
-      'Thank you for your report',
-      'You are making the App a friendlier place for everyone.',
-    );
+    Alert.alert('Thank you for your report', 'You are making the App a friendlier place for everyone.');
   }
 }
 

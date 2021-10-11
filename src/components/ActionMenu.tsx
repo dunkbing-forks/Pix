@@ -23,8 +23,7 @@ const Row = styled.TouchableOpacity`
 const Title = styled.Text<{ disabled?: boolean }>`
   font-size: 14px;
   font-weight: 500;
-  color: ${({ theme, disabled }) =>
-    disabled ? theme.secondaryText : theme.text};
+  color: ${({ theme, disabled }) => (disabled ? theme.secondaryText : theme.text)};
 `;
 
 const CategoryWrapper = styled.View`
@@ -74,7 +73,7 @@ const ActionMenu = ({ items }: Props) => {
             <Row
               key={`${item.title}${i}`}
               style={{
-                borderTopWidth: i !== 0 ? 0.5 : 0
+                borderTopWidth: i !== 0 ? 0.5 : 0,
               }}
               onPress={item.action}
               disabled={item.disabled}
@@ -82,21 +81,11 @@ const ActionMenu = ({ items }: Props) => {
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 {item.thumbIcon && (
                   <ThumbWrapper>
-                    <Icon
-                      name={item.thumbIcon}
-                      size={20}
-                      color={item.thumbColor}
-                    />
+                    <Icon name={item.thumbIcon} size={20} color={item.thumbColor} />
                   </ThumbWrapper>
                 )}
                 {item.thumbImage && (
-                  <ThumbImage
-                    source={
-                      typeof item.thumbImage === 'string'
-                        ? { uri: item.thumbImage }
-                        : item.thumbImage
-                    }
-                  />
+                  <ThumbImage source={typeof item.thumbImage === 'string' ? { uri: item.thumbImage } : item.thumbImage} />
                 )}
                 <Title disabled={item.disabled}>{item.title}</Title>
               </View>

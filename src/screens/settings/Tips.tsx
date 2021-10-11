@@ -92,7 +92,7 @@ const Loader = styled.ActivityIndicator`
 
 const itemSkus = Platform.select({
   ios: ['SMALLTIP', 'GOODTIP', 'GREATTIP'],
-  android: ['']
+  android: [''],
 });
 
 const emojis = ['☕️', '🍕', '🎉'];
@@ -115,10 +115,7 @@ const Tips = observer(() => {
 
   const getProducts = async () => {
     if (userStore?.user?.uid) {
-      const userData = await firestore()
-        .collection('Users')
-        .doc(userStore.user.uid)
-        .get();
+      const userData = await firestore().collection('Users').doc(userStore.user.uid).get();
       console.log(userData.data());
       if (userData.data().tipped) {
         setPreviouslyTipped(true);
@@ -130,16 +127,10 @@ const Tips = observer(() => {
       if (retrievedProducts) {
         setProducts(retrievedProducts);
       } else {
-        Alert.alert(
-          'Oh no!',
-          'Unable to retrieve tips at this time... Try again later!'
-        );
+        Alert.alert('Oh no!', 'Unable to retrieve tips at this time... Try again later!');
       }
     } else {
-      Alert.alert(
-        'Oh no!',
-        'Unable to connect to the In-App purchases center... Try again later!'
-      );
+      Alert.alert('Oh no!', 'Unable to connect to the In-App purchases center... Try again later!');
     }
   };
 
@@ -157,23 +148,17 @@ const Tips = observer(() => {
           [
             {
               text: 'Hooray!',
-              style: 'default'
-            }
+              style: 'default',
+            },
           ]
         );
       }
       if (userStore?.user?.uid) {
-        firestore()
-          .collection('Users')
-          .doc(userStore.user.uid)
-          .update({ tipped: true });
+        firestore().collection('Users').doc(userStore.user.uid).update({ tipped: true });
       }
       console.log('product purchase: ', productPurchase);
     } catch (error) {
-      Alert.alert(
-        'Oh no!',
-        'Failed to send tip.. Check your billing account settings'
-      );
+      Alert.alert('Oh no!', 'Failed to send tip.. Check your billing account settings');
       console.warn('Purchase error: ', error);
     }
   };
@@ -181,25 +166,15 @@ const Tips = observer(() => {
   return (
     <>
       <ConfettiWrapper>
-        <Confetti
-          ref={confettiRef}
-          duration={6000}
-          size={1.5}
-          bsize={4}
-          untilStopped={true}
-        />
+        <Confetti ref={confettiRef} duration={6000} size={1.5} bsize={4} untilStopped={true} />
       </ConfettiWrapper>
       <Wrapper contentContainerStyle={{ alignItems: 'center' }}>
         <IconWrapper onPress={() => setEgg(egg + 1)}>
-          <Icon
-            size={50}
-            name={egg > 10 ? 'Star' : egg % 2 === 0 ? 'Gift' : 'Smile'}
-            color="#FFF"
-          />
+          <Icon size={50} name={egg > 10 ? 'Star' : egg % 2 === 0 ? 'Gift' : 'Smile'} color='#FFF' />
         </IconWrapper>
         <Title>
-          If you want to support the development of the App, feel free to leave
-          a tip. It helps us cover the fees needed to keep the App running!
+          If you want to support the development of the App, feel free to leave a tip. It helps us cover the fees needed to keep the App
+          running!
         </Title>
         <ContentWrapper>
           {!purchased ? (
@@ -215,7 +190,7 @@ const Tips = observer(() => {
                 </Row>
               ))
             ) : (
-              <Loader size="large" color={colors.text} />
+              <Loader size='large' color={colors.text} />
             )
           ) : (
             <Row>
@@ -229,8 +204,7 @@ const Tips = observer(() => {
         {previouslyTipped && (
           <ThanksText>
             {'\n'}
-            {'\n'}You've sent a tip to us in the past.{'\n'}Thanks again for
-            your support! 🙏
+            {'\n'}You've sent a tip to us in the past.{'\n'}Thanks again for your support! 🙏
           </ThanksText>
         )}
       </Wrapper>

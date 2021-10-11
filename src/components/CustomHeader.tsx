@@ -49,15 +49,7 @@ interface Props {
   backAction?(): void;
 }
 
-const CustomHeader = ({
-  action,
-  title,
-  leftComponent,
-  rightComponent,
-  back,
-  close,
-  backAction
-}: Props) => {
+const CustomHeader = ({ action, title, leftComponent, rightComponent, back, close, backAction }: Props) => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const { colors } = useTheme();
@@ -68,15 +60,8 @@ const CustomHeader = ({
         {leftComponent ? (
           leftComponent
         ) : back || close ? (
-          <TouchableOpacity
-            onPress={backAction ? backAction : navigation.goBack}
-            style={{ flexDirection: 'row', alignItems: 'center' }}
-          >
-            <Icon
-              name={back ? 'ChevronLeft' : 'Cross'}
-              color={colors.text}
-              size={24}
-            />
+          <TouchableOpacity onPress={backAction ? backAction : navigation.goBack} style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Icon name={back ? 'ChevronLeft' : 'Cross'} color={colors.text} size={24} />
             <BackText>{back ? 'Back' : ''}</BackText>
           </TouchableOpacity>
         ) : (
@@ -91,7 +76,7 @@ const CustomHeader = ({
           rightComponent
         ) : action ? (
           <TouchableOpacity onPress={action}>
-            <Icon name="ArrowRight" color={colors.accent} size={24} />
+            <Icon name='ArrowRight' color={colors.accent} size={24} />
           </TouchableOpacity>
         ) : (
           <EmptyPlaceholder />

@@ -21,8 +21,7 @@ const Wrapper = styled.View<{
 const PixelsWrapper = styled.View<{ pixelSize: number }>`
   flex-direction: row;
   flex-wrap: wrap;
-  padding: ${({ pixelSize }) =>
-    pixelSize - 1}px; //-1 to avoid early flex wraps with decimals
+  padding: ${({ pixelSize }) => pixelSize - 1}px; //-1 to avoid early flex wraps with decimals
 `;
 
 const PixelBlock = styled.View<{ size: number; color: string }>`
@@ -44,44 +43,24 @@ interface Props {
   style?: ViewStyle;
 }
 
-const PixelArt = ({
-  data,
-  backgroundColor,
-  size,
-  rounded = false,
-  style
-}: Props) => {
+const PixelArt = ({ data, backgroundColor, size, rounded = false, style }: Props) => {
   const { colors } = useTheme();
 
   const pixelSize = size / (PIXEL_COUNT + 2);
 
   if (data?.length !== PIXEL_COUNT * PIXEL_COUNT || !backgroundColor) {
     return (
-      <Wrapper
-        size={size}
-        rounded={rounded}
-        background={colors.secondary}
-        style={[{ ...style }, { justifyContent: 'center' }]}
-      >
+      <Wrapper size={size} rounded={rounded} background={colors.secondary} style={[{ ...style }, { justifyContent: 'center' }]}>
         <WarningText>Unable to load this art</WarningText>
       </Wrapper>
     );
   }
 
   return (
-    <Wrapper
-      size={size}
-      rounded={rounded}
-      background={backgroundColor}
-      style={{ ...style }}
-    >
+    <Wrapper size={size} rounded={rounded} background={backgroundColor} style={{ ...style }}>
       <PixelsWrapper pixelSize={pixelSize}>
         {data.map((pixel, index) => (
-          <PixelBlock
-            key={index}
-            size={pixelSize}
-            color={pixel.color !== 'none' ? pixel.color : backgroundColor}
-          />
+          <PixelBlock key={index} size={pixelSize} color={pixel.color !== 'none' ? pixel.color : backgroundColor} />
         ))}
       </PixelsWrapper>
     </Wrapper>

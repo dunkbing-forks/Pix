@@ -68,17 +68,11 @@ const About = () => {
         .collection('Admins')
         .get()
         .then((data) => {
-          if (
-            data.docs.findIndex(
-              (user) => user.data().id === userStore.user.uid
-            ) >= 0
-          ) {
+          if (data.docs.findIndex((user) => user.data().id === userStore.user.uid) >= 0) {
             userStore.promote();
-            Alert.alert(
-              'The maker!',
-              'You are now signed in as an admin, granting you total power on every post in the App.',
-              [{ text: 'Cool!' }]
-            );
+            Alert.alert('The maker!', 'You are now signed in as an admin, granting you total power on every post in the App.', [
+              { text: 'Cool!' },
+            ]);
           }
         });
     }
@@ -97,20 +91,14 @@ const About = () => {
       <Label>WHAT IS PIX ?</Label>
       <DescWrapper>
         <Desc>
-          Pix is an online pixel art community. Share your creations with
-          everyone to contribute to the app ! If you have any question or
+          Pix is an online pixel art community. Share your creations with everyone to contribute to the app ! If you have any question or
           suggestion, feel free to contact us, we’ll be glad to hear from you !
         </Desc>
       </DescWrapper>
       <Label>PRIVACY POLICY</Label>
-      <TouchableOpacity
-        onPress={() => Linking.openURL('https://maximenory.com/pix')}
-      >
+      <TouchableOpacity onPress={() => Linking.openURL('https://maximenory.com/pix')}>
         <DescWrapper>
-          <Desc>
-            Tap here to open our privacy policy informations using your default
-            web browser
-          </Desc>
+          <Desc>Tap here to open our privacy policy informations using your default web browser</Desc>
         </DescWrapper>
       </TouchableOpacity>
     </Wrapper>

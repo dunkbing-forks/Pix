@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import {makeObservable, observable, action, runInAction} from 'mobx';
-import {createContext} from 'react';
+import { makeObservable, observable, action, runInAction } from 'mobx';
+import { createContext } from 'react';
 
-import {Themes} from '../types';
+import { Themes } from '../types';
 
 class AppState {
   constructor() {
@@ -48,7 +48,7 @@ class AppState {
         JSON.stringify({
           theme: this.theme,
           appIcon: this.appIcon,
-        }),
+        })
       );
     } catch (error) {}
   };

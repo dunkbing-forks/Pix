@@ -25,30 +25,28 @@ const Settings = observer(() => {
         title: 'Theme',
         thumbIcon: 'Palette',
         thumbColor: '#ED6A5A',
-        action: () => navigation.navigate('Appearance')
+        action: () => navigation.navigate('Appearance'),
       },
       {
         title: 'Account',
         thumbIcon: 'Account',
         thumbColor: '#4DB3FF',
         disabled: !userStore.user,
-        action: () => navigation.navigate('EditProfile')
+        action: () => navigation.navigate('EditProfile'),
       },
       {
         title: !userStore.user ? 'Log in / Sign up' : 'Log me out',
         thumbIcon: !userStore.user ? 'Logout' : 'Logout', // TODO
         thumbColor: '#35CE8D',
-        action: !userStore.user
-          ? () => navigation.navigate('EditorModal')
-          : logout
-      }
+        action: !userStore.user ? () => navigation.navigate('EditorModal') : logout,
+      },
     ],
     [
       {
         title: 'About',
         thumbIcon: 'Infos',
         thumbColor: '#35CE8D',
-        action: () => navigation.navigate('About')
+        action: () => navigation.navigate('About'),
       },
       {
         title: 'Rate the App',
@@ -60,7 +58,7 @@ const Settings = observer(() => {
               // user went to the review page
             }
           });
-        }
+        },
       },
       {
         title: 'Contact me',
@@ -76,45 +74,45 @@ const Settings = observer(() => {
                 onPress: () => {
                   Linking.openURL('https://twitter.com/MaximeNory');
                 },
-                style: 'default'
+                style: 'default',
               },
               {
                 text: 'Send me an email',
                 onPress: () => {
                   Linking.openURL('mailto:hello@maximenory.com');
                 },
-                style: 'default'
+                style: 'default',
               },
               {
                 text: 'Cancel',
-                style: 'cancel'
-              }
+                style: 'cancel',
+              },
             ]
           );
-        }
+        },
       },
       {
         title: 'Leave a tip',
         thumbIcon: 'Money',
         thumbColor: '#FFB800',
         action: () => navigation.navigate('Tips'),
-        disabled: false
-      }
+        disabled: false,
+      },
     ],
     [
       {
         title: 'Licenses',
         thumbIcon: 'Book',
         thumbColor: '#35CE8D',
-        action: () => navigation.navigate('Licenses')
+        action: () => navigation.navigate('Licenses'),
       },
       {
         title: 'Source Code',
         thumbIcon: 'Github',
         thumbColor: '#4DB3FF',
-        action: () => Linking.openURL('https://github.com/illu/pix')
-      }
-    ]
+        action: () => Linking.openURL('https://github.com/illu/pix'),
+      },
+    ],
   ];
 
   return (

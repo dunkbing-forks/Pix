@@ -60,10 +60,7 @@ const Licenses = () => (
   <>
     <TitleWrapper>
       <Title>Open Source Licenses</Title>
-      <SubTitle>
-        Pix is made possible thanks to the following Open-Source libraries and
-        tools:
-      </SubTitle>
+      <SubTitle>Pix is made possible thanks to the following Open-Source libraries and tools:</SubTitle>
     </TitleWrapper>
     <FlatList
       style={{ padding: SCREEN_PADDING }}

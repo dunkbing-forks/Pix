@@ -82,20 +82,17 @@ const AccountPasswordCreation = ({ route }) => {
         return firestore().collection('Users').doc(data.user.uid).set({
           displayName: username,
           badges: [],
-          avatar: 'cat-1'
+          avatar: 'cat-1',
         });
       })
       .then(() => {
         return auth().currentUser?.updateProfile({
           displayName: username,
-          photoURL: 'cat-1'
+          photoURL: 'cat-1',
         });
       })
       .then(() => {
-        Alert.alert(
-          'Welcome to Pix 👋',
-          'Now, try our editor to create your first artwork or browse through people’s creations!'
-        );
+        Alert.alert('Welcome to Pix 👋', 'Now, try our editor to create your first artwork or browse through people’s creations!');
       })
       .catch((error) => {
         if (error.code === 'auth/email-already-in-use') {
@@ -111,13 +108,10 @@ const AccountPasswordCreation = ({ route }) => {
   };
 
   return (
-    <Wrapper behavior="padding">
+    <Wrapper behavior='padding'>
       <Image source={Birb} />
       <Title>Welcome to Pix!</Title>
-      <IntroText>
-        Almost done! Create a password to secure your account and access the
-        App.
-      </IntroText>
+      <IntroText>Almost done! Create a password to secure your account and access the App.</IntroText>
       <Label>Your password</Label>
       <TextInput
         value={password}
@@ -136,22 +130,17 @@ const AccountPasswordCreation = ({ route }) => {
           setPasswordVerification(str);
         }}
         style={{ color: colors.text }}
-        returnKeyType="done"
+        returnKeyType='done'
         onSubmitEditing={createAccount}
         secureTextEntry
       />
       <Button
         onPress={createAccount}
         loading={loading}
-        title="Create my account"
+        title='Create my account'
         disabled={password.length === 0 || passwordVerification.length === 0}
       />
-      <Button
-        onPress={navigation.goBack}
-        fill={false}
-        title="Previous"
-        style={{ marginTop: 10 }}
-      />
+      <Button onPress={navigation.goBack} fill={false} title='Previous' style={{ marginTop: 10 }} />
       <ErrorText>{error}</ErrorText>
     </Wrapper>
   );

@@ -20,25 +20,22 @@ const Appearance = observer(() => {
       {
         title: 'Automatic',
         action: () => switchTheme(Themes.automatic),
-        thumbIcon:
-          appStateStore.theme === Themes.automatic ? 'CheckCircle' : 'Circle',
-        thumbColor: colors.text
+        thumbIcon: appStateStore.theme === Themes.automatic ? 'CheckCircle' : 'Circle',
+        thumbColor: colors.text,
       },
       {
         title: 'Light',
         action: () => switchTheme(Themes.light),
-        thumbIcon:
-          appStateStore.theme === Themes.light ? 'CheckCircle' : 'Circle',
-        thumbColor: colors.text
+        thumbIcon: appStateStore.theme === Themes.light ? 'CheckCircle' : 'Circle',
+        thumbColor: colors.text,
       },
       {
         title: 'Dark',
         action: () => switchTheme(Themes.dark),
-        thumbIcon:
-          appStateStore.theme === Themes.dark ? 'CheckCircle' : 'Circle',
-        thumbColor: colors.text
-      }
-    ]
+        thumbIcon: appStateStore.theme === Themes.dark ? 'CheckCircle' : 'Circle',
+        thumbColor: colors.text,
+      },
+    ],
   ];
 
   return (

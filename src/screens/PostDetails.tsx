@@ -3,13 +3,7 @@ import firestore from '@react-native-firebase/firestore';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState, useContext } from 'react';
-import {
-  ScrollView,
-  Button,
-  StatusBar,
-  KeyboardAvoidingView,
-  ActivityIndicator
-} from 'react-native';
+import { ScrollView, Button, StatusBar, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
 
@@ -94,8 +88,8 @@ const PostDetails = observer(({ route }) => {
         comments: firebase.firestore.FieldValue.arrayUnion({
           userRef: firestore().doc(`Users/${userStore.user.uid}`),
           text: comment,
-          timestamp: new Date().getTime()
-        })
+          timestamp: new Date().getTime(),
+        }),
       })
       .then(() => {
         loadData();
@@ -108,30 +102,20 @@ const PostDetails = observer(({ route }) => {
 
   return (
     <Wrapper contentContainerStyle={{ flex: 1, padding: 15 }}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar barStyle='light-content' />
       <Header>
         <Title>Comments</Title>
-        <Button title="Close" onPress={navigation.goBack} />
+        <Button title='Close' onPress={navigation.goBack} />
       </Header>
-      {loading && <ActivityIndicator size="small" color={colors.text} />}
+      {loading && <ActivityIndicator size='small' color={colors.text} />}
       <ScrollView contentContainerStyle={{ paddingBottom: 15 }}>
         {comments.length === 0 ? (
           <Empty hideAction={true} />
         ) : (
-          comments.map((data, i) => (
-            <Comment
-              key={i}
-              text={data.text}
-              userRef={data.userRef}
-              timestamp={data.timestamp}
-            />
-          ))
+          comments.map((data, i) => <Comment key={i} text={data.text} userRef={data.userRef} timestamp={data.timestamp} />)
         )}
       </ScrollView>
-      <KeyboardAvoidingView
-        behavior="position"
-        keyboardVerticalOffset={insets.bottom + 5}
-      >
+      <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={insets.bottom + 5}>
         <InputWrapper insetBottom={insets.bottom}>
           <TextInput
             value={comment}
@@ -144,7 +128,7 @@ const PostDetails = observer(({ route }) => {
                   : 'Add your comment...'
                 : 'You must log in to add a comment !'
             }
-            returnKeyType="send"
+            returnKeyType='send'
             placeholderTextColor={colors.placeholderText}
             multiline={true}
             maxLength={300}
@@ -158,7 +142,7 @@ const PostDetails = observer(({ route }) => {
             disabled={comment.length === 0}
             style={{ opacity: comment.length === 0 ? 0.2 : 1 }}
           >
-            <Icon name="Send" size={25} color={colors.text} />
+            <Icon name='Send' size={25} color={colors.text} />
           </SendIconWrapper>
         </InputWrapper>
       </KeyboardAvoidingView>

@@ -11,7 +11,6 @@
 
 Pix is an online pixel art community where everyone can unleash their creativity on a 16x16 canvas, built with [React-Native](https://github.com/facebook/react-native) for iOS devices.
 
-
 ## Stack
 
 [React-Native](https://github.com/facebook/react-native)

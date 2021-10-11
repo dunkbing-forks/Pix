@@ -27,12 +27,7 @@
     "isolatedModules": true,
     "jsx": "react-native",
     "lib": ["es6"],
-    "baseUrl": ".",
+    "baseUrl": "."
   },
-  "exclude": [
-    "node_modules",
-    "babel.config.js",
-    "metro.config.js",
-    "react-native.config.js"
-  ]
+  "exclude": ["node_modules", "babel.config.js", "metro.config.js", "react-native.config.js"]
 }

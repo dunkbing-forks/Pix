@@ -8,7 +8,9 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "npm run lint -- --fix",
+    "format": "prettier --config .prettierrc . --write",
     "generate-licenses": "license-checker -json > ./src/screens/settings/licenses.json"
   },
   "dependencies": {
@@ -69,18 +71,5 @@
   },
   "jest": {
     "preset": "react-native"
-  },
-  "prettier": {
-    "tabWidth": 2,
-    "useTabs": false,
-    "printWidth": 140,
-    "semi": true,
-    "trailingComma": "es5",
-    "bracketSpacing": true,
-    "arrowParens": "always",
-    "singleQuote": true,
-    "jsxSingleQuote": true,
-    "bracketSameLine": false,
-    "endOfLine": "lf"
   }
 }

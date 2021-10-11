@@ -59,43 +59,37 @@ const AccountCreation = () => {
   const [email, setEmail] = useState('');
 
   return (
-    <Wrapper behavior="padding">
+    <Wrapper behavior='padding'>
       <Image source={Birb} />
       <Title>Welcome to Pix!</Title>
-      <IntroText>
-        Create your account and enjoy the app and its community!
-      </IntroText>
+      <IntroText>Create your account and enjoy the app and its community!</IntroText>
       <Label>First, choose your username</Label>
       <TextInput
         value={username}
         maxLength={20}
         placeholderTextColor={colors.secondaryText}
-        placeholder="Your username"
-        autoCapitalize="none"
+        placeholder='Your username'
+        autoCapitalize='none'
         onChangeText={setUsername}
         style={{ color: colors.text }}
-        autocompleteType="username"
+        autocompleteType='username'
       />
       <Label>Your email</Label>
       <TextInput
-        placeholder="Your email"
+        placeholder='Your email'
         value={email}
-        returnKeyType="next"
-        autoCapitalize="none"
-        onSubmitEditing={() =>
-          navigation.navigate('AccountPasswordCreation', { username, email })
-        }
+        returnKeyType='next'
+        autoCapitalize='none'
+        onSubmitEditing={() => navigation.navigate('AccountPasswordCreation', { username, email })}
         placeholderTextColor={colors.secondaryText}
         style={{ color: colors.text }}
         onChangeText={setEmail}
-        autocompleteType="email"
-        keyboardType="email-address"
+        autocompleteType='email'
+        keyboardType='email-address'
       />
       <Button
-        onPress={() =>
-          navigation.navigate('AccountPasswordCreation', { username, email })
-        }
-        title="Next"
+        onPress={() => navigation.navigate('AccountPasswordCreation', { username, email })}
+        title='Next'
         disabled={username.length === 0 || email.length === 0}
       />
     </Wrapper>

@@ -1,22 +1,17 @@
-import React, {useState, useContext} from 'react';
-import {
-  Dimensions,
-  Switch,
-  ActivityIndicator,
-  KeyboardAvoidingView,
-} from 'react-native';
+import React, { useState, useContext } from 'react';
+import { Dimensions, Switch, ActivityIndicator, KeyboardAvoidingView } from 'react-native';
 import PixelArt from '../components/PixelArt';
 import styled from 'styled-components/native';
 import CustomHeader from '../components/CustomHeader';
-import {SCREEN_PADDING} from '../theme';
+import { SCREEN_PADDING } from '../theme';
 import firestore from '@react-native-firebase/firestore';
 import User from '../stores/User';
-import {useNavigation, useTheme} from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import Challenge from '../stores/Challenge';
 import Feed from '../stores/Feed';
 
 const ScrollView = styled.ScrollView`
-  background: ${({theme}) => theme.secondary};
+  background: ${({ theme }) => theme.secondary};
 `;
 
 const Row = styled.View`
@@ -30,12 +25,12 @@ const PublishButton = styled.TouchableOpacity`
   justify-content: center;
   height: 30px;
   width: 70px;
-  background: ${({theme}) => theme.accent};
+  background: ${({ theme }) => theme.accent};
   border-radius: 4px;
 `;
 
 const PublishText = styled.Text`
-  color: ${({theme}) => theme.text};
+  color: ${({ theme }) => theme.text};
   font-size: 14px;
   font-weight: 600;
 `;
@@ -49,30 +44,30 @@ const Label = styled.Text`
   font-weight: 600;
   font-size: 14px;
   margin: 5px 0;
-  color: ${({theme}) => theme.text};
+  color: ${({ theme }) => theme.text};
 `;
 
 const TextInput = styled.TextInput`
   border-radius: 4px;
-  background: ${({theme}) => theme.background};
+  background: ${({ theme }) => theme.background};
   border: 1px;
-  border-color: ${({theme}) => theme.uiAccent};
-  color: ${({theme}) => theme.text};
+  border-color: ${({ theme }) => theme.uiAccent};
+  color: ${({ theme }) => theme.text};
   padding: 10px;
   font-size: 14px;
   margin-bottom: 10px;
   height: 100px;
 `;
 
-const Publish = ({route}) => {
-  const {canvasData, backgroundColor} = route.params;
+const Publish = ({ route }) => {
+  const { canvasData, backgroundColor } = route.params;
   const userStore = useContext(User);
   const challengeStore = useContext(Challenge);
   const feedStore = useContext(Feed);
   const [desc, setDesc] = useState('');
   const [tag, setTag] = useState(null);
   const [loading, setLoading] = useState(false);
-  const {colors} = useTheme();
+  const { colors } = useTheme();
   const navigation = useNavigation();
 
   const toggleSwitch = () => {
@@ -128,55 +123,32 @@ const Publish = ({route}) => {
 
   const headerRight = (
     <PublishButton disabled={loading} onPress={sendPost}>
-      {loading ? (
-        <ActivityIndicator size="small" color={colors.text} />
-      ) : (
-        <PublishText>Publish</PublishText>
-      )}
+      {loading ? <ActivityIndicator size='small' color={colors.text} /> : <PublishText>Publish</PublishText>}
     </PublishButton>
   );
 
   return (
     <>
       <CustomHeader
-        title="Your Post"
+        title='Your Post'
         back
         rightComponent={headerRight}
         backAction={() =>
           navigation.navigate('Edit', {
-            data: {data: {pixels: canvasData, backgroundColor}},
+            data: { data: { pixels: canvasData, backgroundColor } },
           })
         }
       />
-      <KeyboardAvoidingView
-        behavior="position"
-        contentContainerStyle={{flex: 1}}
-        style={{flex: 1, backgroundColor: colors.secondary}}>
+      <KeyboardAvoidingView behavior='position' contentContainerStyle={{ flex: 1 }} style={{ flex: 1, backgroundColor: colors.secondary }}>
         <ScrollView>
-          <PixelArt
-            data={canvasData}
-            backgroundColor={backgroundColor}
-            size={Dimensions.get('window').width}
-          />
+          <PixelArt data={canvasData} backgroundColor={backgroundColor} size={Dimensions.get('window').width} />
           <ContentWrapper>
             <Row>
-              <Label style={{flex: 1}}>
-                I’m participating in this month challenge (
-                {challengeStore.currentChallenge.title})
-              </Label>
-              <Switch
-                style={{marginLeft: 20}}
-                onValueChange={toggleSwitch}
-                value={!!tag}
-                trackColor={{true: colors.accent}}
-              />
+              <Label style={{ flex: 1 }}>I’m participating in this month challenge ({challengeStore.currentChallenge.title})</Label>
+              <Switch style={{ marginLeft: 20 }} onValueChange={toggleSwitch} value={!!tag} trackColor={{ true: colors.accent }} />
             </Row>
             <Label>A quick word about your masterpiece? (optional)</Label>
-            <TextInput
-              value={desc}
-              onChangeText={(str) => str.length < 200 && setDesc(str)}
-              multiline
-            />
+            <TextInput value={desc} onChangeText={(str) => str.length < 200 && setDesc(str)} multiline />
           </ContentWrapper>
         </ScrollView>
       </KeyboardAvoidingView>

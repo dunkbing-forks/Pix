@@ -30,32 +30,28 @@ interface Props {
   cloudRef?: any;
 }
 
-const Avatar = observer(
-  ({ size = 32, withBorder = false, name = 'cat-1', cloudRef }: Props) => {
-    const [uri, setUri] = useState<null | string>(null);
+const Avatar = observer(({ size = 32, withBorder = false, name = 'cat-1', cloudRef }: Props) => {
+  const [uri, setUri] = useState<null | string>(null);
 
-    const imagesStore = useContext(Images);
+  const imagesStore = useContext(Images);
 
-    useEffect(() => {
-      if (cloudRef) {
-        storage()
-          .ref(cloudRef)
-          .getDownloadURL()
-          .then((url) => setUri(url));
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+  useEffect(() => {
+    if (cloudRef) {
+      storage()
+        .ref(cloudRef)
+        .getDownloadURL()
+        .then((url) => setUri(url));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    const source = cloudRef
-      ? { uri }
-      : { uri: imagesStore?.avatars[name]?.url || null };
+  const source = cloudRef ? { uri } : { uri: imagesStore?.avatars[name]?.url || null };
 
-    return (
-      <Wrapper size={size} border={withBorder}>
-        <Image source={source} />
-      </Wrapper>
-    );
-  }
-);
+  return (
+    <Wrapper size={size} border={withBorder}>
+      <Image source={source} />
+    </Wrapper>
+  );
+});
 
 export default Avatar;

@@ -3,13 +3,7 @@ import { useNavigation, useTheme } from '@react-navigation/native';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect } from 'react';
 import { useState } from 'react';
-import {
-  Dimensions,
-  ScrollView,
-  TouchableOpacity,
-  ActivityIndicator,
-  Alert
-} from 'react-native';
+import { Dimensions, ScrollView, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import styled from 'styled-components/native';
 
 import Avatar from '../components/Avatar';
@@ -94,22 +88,19 @@ const Profile = observer(() => {
 
   const postSize = (Dimensions.get('window').width - SCREEN_PADDING * 3) / 2;
 
-  const displayedData = showDrafts
-    ? draftsStore.drafts
-    : userStore.posts?.slice(0, postsDisplayed);
+  const displayedData = showDrafts ? draftsStore.drafts : userStore.posts?.slice(0, postsDisplayed);
 
   const openArt = (index: number, post?: any) => {
     if (showDrafts) {
       navigation.navigate('EditorModal', {
         screen: 'Edit',
-        params: { data: draftsStore.drafts[index] }
+        params: { data: draftsStore.drafts[index] },
       });
       draftsStore.removeDraft(index);
     } else {
       Alert.alert(
         'Infos',
-        `This post has ${post?.likesCount || 0} likes, ${post?.comments?.length || 0
-        } comments, and ${post?.reports || 0} reports`,
+        `This post has ${post?.likesCount || 0} likes, ${post?.comments?.length || 0} comments, and ${post?.reports || 0} reports`,
         [
           {
             text: 'Delete this post',
@@ -123,9 +114,9 @@ const Profile = observer(() => {
                   userStore.loadPosts();
                   Alert.alert('💥', 'Removed post');
                 });
-            }
+            },
           },
-          { text: 'Cancel', style: 'cancel' }
+          { text: 'Cancel', style: 'cancel' },
         ]
       );
     }
@@ -144,37 +135,20 @@ const Profile = observer(() => {
             </PostsInfos>
             <BadgesRow>
               {userStore.userData?.badges?.map((badge) => (
-                <Avatar
-                  key={badge}
-                  cloudRef={`badges/${badge.toLowerCase()}.png`}
-                />
+                <Avatar key={badge} cloudRef={`badges/${badge.toLowerCase()}.png`} />
               ))}
             </BadgesRow>
           </InfosWrapper>
           <EditButton onPress={() => navigation.navigate('EditProfile')}>
-            <Icon name="Edit" color={colors.text} size={24} />
+            <Icon name='Edit' color={colors.text} size={24} />
           </EditButton>
         </Row>
         <ButtonsRow>
-          <IconButton
-            title="Published"
-            onPress={() => setShowDrafts(false)}
-            active={!showDrafts}
-            icon="Picture"
-            color="green"
-          />
-          <IconButton
-            title="Drafts"
-            onPress={() => setShowDrafts(true)}
-            active={showDrafts}
-            icon="EditPicture"
-            color="yellow"
-          />
+          <IconButton title='Published' onPress={() => setShowDrafts(false)} active={!showDrafts} icon='Picture' color='green' />
+          <IconButton title='Drafts' onPress={() => setShowDrafts(true)} active={showDrafts} icon='EditPicture' color='yellow' />
         </ButtonsRow>
       </HeaderWrapper>
-      {userStore.state === STATES.LOADING && (
-        <ActivityIndicator style={{ margin: 50 }} />
-      )}
+      {userStore.state === STATES.LOADING && <ActivityIndicator style={{ margin: 50 }} />}
       <ScrollView>
         <PostWrapper>
           {displayedData?.map((post, index) => (
@@ -189,17 +163,11 @@ const Profile = observer(() => {
             </TouchableOpacity>
           ))}
           {!displayedData || (displayedData.length === 0 && <Empty />)}
-          {!showDrafts &&
-            displayedData &&
-            postsDisplayed < userStore.posts.length && (
-              <ButtonsRow style={{ marginTop: 15 }}>
-                <Button
-                  fill
-                  title="Show more"
-                  onPress={() => setPostDisplayed(postsDisplayed + 4)}
-                />
-              </ButtonsRow>
-            )}
+          {!showDrafts && displayedData && postsDisplayed < userStore.posts.length && (
+            <ButtonsRow style={{ marginTop: 15 }}>
+              <Button fill title='Show more' onPress={() => setPostDisplayed(postsDisplayed + 4)} />
+            </ButtonsRow>
+          )}
         </PostWrapper>
       </ScrollView>
     </>

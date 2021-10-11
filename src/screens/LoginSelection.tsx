@@ -47,7 +47,7 @@ const LoginSelection = () => {
     // Start the sign-in request
     const appleAuthRequestResponse = await appleAuth.performRequest({
       requestedOperation: appleAuth.Operation.LOGIN,
-      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME]
+      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
     });
 
     // Ensure Apple returned a user identityToken
@@ -57,10 +57,7 @@ const LoginSelection = () => {
 
     // Create a Firebase credential from the response
     const { identityToken, nonce } = appleAuthRequestResponse;
-    const appleCredential = auth.AppleAuthProvider.credential(
-      identityToken,
-      nonce
-    );
+    const appleCredential = auth.AppleAuthProvider.credential(identityToken, nonce);
 
     // Sign the user in with the credential
     const { user } = await auth().signInWithCredential(appleCredential);
@@ -71,12 +68,12 @@ const LoginSelection = () => {
       .set({
         displayName: user.displayName || 'Unknown Artist',
         badges: [],
-        avatar: 'cat-1'
+        avatar: 'cat-1',
       });
 
     const value = await auth().currentUser?.updateProfile({
       displayName: user.displayName || 'Unknown Artist',
-      photoURL: 'cat-1'
+      photoURL: 'cat-1',
     });
     return value;
   };
@@ -86,20 +83,9 @@ const LoginSelection = () => {
     <Wrapper>
       <Image source={Koala} />
       <Title>Hello there!</Title>
-      <IntroText>
-        Log in or create an account to share your work and fully enjoy the app
-        and its community.
-      </IntroText>
-      <Button
-        onPress={() => navigation.navigate('AccountCreation')}
-        title="Create an account"
-        style={{ marginBottom: 10 }}
-      />
-      <Button
-        onPress={() => navigation.navigate('Login')}
-        fill={false}
-        title="Sign in"
-      />
+      <IntroText>Log in or create an account to share your work and fully enjoy the app and its community.</IntroText>
+      <Button onPress={() => navigation.navigate('AccountCreation')} title='Create an account' style={{ marginBottom: 10 }} />
+      <Button onPress={() => navigation.navigate('Login')} fill={false} title='Sign in' />
       {Platform.OS === 'ios' && (
         <AppleButton
           buttonStyle={AppleButton.Style.WHITE_OUTLINE}
@@ -107,7 +93,7 @@ const LoginSelection = () => {
           style={{
             marginTop: 10,
             width: BUTTON_WIDTH,
-            height: 45
+            height: 45,
           }}
           onPress={() =>
             onAppleButtonPress().then(() => {

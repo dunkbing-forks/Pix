@@ -82,51 +82,45 @@ const Login = () => {
     auth()
       .sendPasswordResetEmail(email)
       .then(() => {
-        Alert.alert(
-          'Check your mailbox!',
-          `We sent you an email to ${email} to help you reset your password.`
-        );
+        Alert.alert('Check your mailbox!', `We sent you an email to ${email} to help you reset your password.`);
         setLoading(false);
       })
       .catch((err) => {
-        Alert.alert(
-          'Error 😢',
-          `We tried to send an email to ${email} but something unexpected happened. Make sure the address is valid.`
-        );
+        Alert.alert('Error 😢', `We tried to send an email to ${email} but something unexpected happened. Make sure the address is valid.`);
         setLoading(false);
       });
   };
 
   return (
-    <Wrapper behavior="padding">
+    <Wrapper behavior='padding'>
       <Image source={Chick} />
       <Title>Welcome back!</Title>
       <TextInput
         value={email}
-        placeholder="Your email"
+        placeholder='Your email'
         placeholderTextColor={colors.secondaryText}
-        autoCapitalize="none"
+        autoCapitalize='none'
         onChangeText={setEmail}
         style={{ color: colors.text }}
-        autocompleteType="email"
-        keyboardType="email-address"
+        autocompleteType='email'
+        keyboardType='email-address'
       />
       <TextInput
         value={password}
-        placeholder="Your password"
-        autoCapitalize="none"
+        placeholder='Your password'
+        autoCapitalize='none'
         placeholderTextColor={colors.secondaryText}
         style={{ color: colors.text }}
         onChangeText={setPassword}
-        autoCompleteType="password"
-        returnKeyType="done"
+        autoCompleteType='password'
+        returnKeyType='done'
         onSubmitEditing={login}
         secureTextEntry
       />
       <TouchableOpacity onPress={resetPassword} disabled={loading}>
         <ResetPassword>Reset your password</ResetPassword>
       </TouchableOpacity>
-      <Button onPress={login} loading={loading} title="Sign in" />
+      <Button onPress={login} loading={loading} title='Sign in' />
       <ErrorText>{error}</ErrorText>
     </Wrapper>
   );

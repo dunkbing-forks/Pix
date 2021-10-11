@@ -65,15 +65,12 @@ const CurrentChallengeCard = ({ challengeTitle }: Props) => {
   const [challengeImageURL, setChallengeImageURL] = useState(undefined);
 
   useEffect(() => {
-    storage()
-      .ref(`challenges/${currentMonth.toLowerCase()}.png`)
-      .getDownloadURL()
-      .then(setChallengeImageURL);
+    storage().ref(`challenges/${currentMonth.toLowerCase()}.png`).getDownloadURL().then(setChallengeImageURL);
   }, []);
 
   const navigation = useNavigation();
   return (
-    <Wrapper source={{ uri: challengeImageURL }} resizeMode="cover">
+    <Wrapper source={{ uri: challengeImageURL }} resizeMode='cover'>
       <ContentWrapper colors={['#00000000', '#00000099']}>
         <Month>{currentMonth} Challenge</Month>
         {challengeTitle ? (
@@ -81,13 +78,8 @@ const CurrentChallengeCard = ({ challengeTitle }: Props) => {
             <TitleWrapper>
               <Title>{challengeTitle}</Title>
             </TitleWrapper>
-            <Desc>
-              Participate in our challenge to win this month unique badge and
-              get a chance to enter the hall of fame !
-            </Desc>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('EditorModal')}
-            >
+            <Desc>Participate in our challenge to win this month unique badge and get a chance to enter the hall of fame !</Desc>
+            <TouchableOpacity onPress={() => navigation.navigate('EditorModal')}>
               <Link>Create your entry now</Link>
             </TouchableOpacity>
           </>

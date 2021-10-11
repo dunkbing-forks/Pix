@@ -46,14 +46,14 @@ const TabbarComponent = ({ props }: Props) => {
   const tabbarWidth = Dimensions.get('window').width - 32;
   const indicatorPosition = switchAnim.interpolate({
     inputRange: [0, props.state.routeNames.length - 1],
-    outputRange: [16, tabbarWidth - tabbarWidth / 3 + 16]
+    outputRange: [16, tabbarWidth - tabbarWidth / 3 + 16],
   });
 
   useEffect(() => {
     Animated.spring(switchAnim, {
       toValue: props.state.index,
       duration: 250,
-      useNativeDriver: false
+      useNativeDriver: false,
     }).start();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.state.index]);
@@ -70,7 +70,7 @@ const TabbarComponent = ({ props }: Props) => {
                 const event = props.navigation.emit({
                   type: 'tabPress',
                   target: route.key,
-                  canPreventDefault: true
+                  canPreventDefault: true,
                 });
                 if (!isFocused && !event.defaultPrevented) {
                   props.navigation.navigate(route);
@@ -86,14 +86,14 @@ const TabbarComponent = ({ props }: Props) => {
                 props.navigation.navigate('EditorModal');
               }}
             >
-              <Icon name="Add" size={40} color={colors.text} />
+              <Icon name='Add' size={40} color={colors.text} />
             </PressableWrapper>
           )
         )}
         <TabIndicatorWrapper
           style={{
             left: indicatorPosition,
-            width: tabbarWidth / 4
+            width: tabbarWidth / 4,
           }}
           insetBottom={insets.bottom}
         >

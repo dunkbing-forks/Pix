@@ -105,7 +105,7 @@ const FeedCard = ({
   avatar = 'cat-1',
   userRef,
   timestamp,
-  comments = []
+  comments = [],
 }: Props) => {
   const { colors } = useTheme();
   const userStore = useContext(User);
@@ -165,38 +165,35 @@ const FeedCard = ({
         <TouchableOpacity
           onPress={() => {
             if (!userStore.user) {
-              Alert.alert(
-                'Warning',
-                'You must log in to interact with a publication.',
-                [
-                  {
-                    text: 'Log in or Create an account',
-                    onPress: onLike,
-                    style: 'default'
-                  },
-                  {
-                    text: 'Cancel',
-                    style: 'cancel',
-                    onPress: () => { }
-                  }
-                ]
-              );
+              Alert.alert('Warning', 'You must log in to interact with a publication.', [
+                {
+                  text: 'Log in or Create an account',
+                  onPress: onLike,
+                  style: 'default',
+                },
+                {
+                  text: 'Cancel',
+                  style: 'cancel',
+                  onPress: () => {},
+                },
+              ]);
               return;
             }
             Alert.alert(
               'Options',
-              `Help us get rid of low quality posts (such as innapropriate content or low-effort)${userStore.isAdmin ? `\n\nID: ${id}` : ''
+              `Help us get rid of low quality posts (such as innapropriate content or low-effort)${
+                userStore.isAdmin ? `\n\nID: ${id}` : ''
               }`,
               [
                 {
                   text: 'Report',
                   onPress: onReport,
-                  style: 'destructive'
+                  style: 'destructive',
                 },
                 {
                   text: 'Cancel',
                   style: 'cancel',
-                  onPress: () => { }
+                  onPress: () => {},
                 },
                 userStore.isAdmin && {
                   text: 'Delete',
@@ -207,20 +204,16 @@ const FeedCard = ({
                       .doc(`${id}`)
                       .delete()
                       .then(() => Alert.alert('💥', 'Removed post'));
-                  }
-                }
+                  },
+                },
               ]
             );
           }}
         >
-          <Icon name="Dots" size={24} color={colors.text} />
+          <Icon name='Dots' size={24} color={colors.text} />
         </TouchableOpacity>
       </Row>
-      <PixelArt
-        data={data}
-        backgroundColor={backgroundColor}
-        size={width - SCREEN_PADDING * 4}
-      />
+      <PixelArt data={data} backgroundColor={backgroundColor} size={width - SCREEN_PADDING * 4} />
       <View style={{ flexDirection: 'row' }}>
         <LikesRow
           onPress={() => {
@@ -230,15 +223,11 @@ const FeedCard = ({
             onLike();
           }}
         >
-          <Icon
-            name={localLiked ? 'HeartFull' : 'Heart'}
-            color={localLiked ? '#ED6A5A' : colors.text}
-            size={24}
-          />
+          <Icon name={localLiked ? 'HeartFull' : 'Heart'} color={localLiked ? '#ED6A5A' : colors.text} size={24} />
           <IconLabel>{localLikesCount}</IconLabel>
         </LikesRow>
         <LikesRow onPress={goToDetails}>
-          <Icon name="Bubble" color={colors.text} size={24} />
+          <Icon name='Bubble' color={colors.text} size={24} />
           <IconLabel>{comments.length}</IconLabel>
           {userStore.isAdmin && reports && (
             <>

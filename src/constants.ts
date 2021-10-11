@@ -1,4 +1,4 @@
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 
 export enum STATES {
   IDLE,
@@ -28,23 +28,9 @@ export const BUTTON_WIDTH = 275;
 export const PIXEL_COUNT = 16;
 
 export const EDITOR_BORDER_SIZE = 10;
-export const PIXEL_SIZE =
-  (Dimensions.get('window').width - EDITOR_BORDER_SIZE * 2) / PIXEL_COUNT;
+export const PIXEL_SIZE = (Dimensions.get('window').width - EDITOR_BORDER_SIZE * 2) / PIXEL_COUNT;
 
-export const MONTHS = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-];
+export const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 export const MONTHS_FULL = [
   'January',

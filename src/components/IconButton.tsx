@@ -29,51 +29,41 @@ interface Props {
   icon: string;
 }
 
-const IconButton = ({
-  title,
-  onPress,
-  active,
-  color = 'green',
-  icon
-}: Props) => {
+const IconButton = ({ title, onPress, active, color = 'green', icon }: Props) => {
   const { colors } = useTheme();
   const localColors =
     color === 'green'
       ? active
         ? {
             background: colors.greenBackground,
-            color: colors.green
+            color: colors.green,
           }
         : {
             color: colors.text,
-            background: colors.secondaryBackground
+            background: colors.secondaryBackground,
           }
       : color === 'accent'
       ? active
         ? {
             background: colors.accent,
-            color: '#FFF'
+            color: '#FFF',
           }
         : {
             background: colors.background,
-            color: colors.text
+            color: colors.text,
           }
       : active
       ? {
           background: colors.yellowBackground,
-          color: colors.yellow
+          color: colors.yellow,
         }
       : {
           color: colors.text,
-          background: colors.secondaryBackground
+          background: colors.secondaryBackground,
         };
 
   return (
-    <Wrapper
-      onPress={onPress}
-      active={active}
-      style={{ backgroundColor: localColors.background }}
-    >
+    <Wrapper onPress={onPress} active={active} style={{ backgroundColor: localColors.background }}>
       <Icon name={icon} color={localColors.color} size={16} />
       <Title style={{ color: localColors.color }}>{title}</Title>
     </Wrapper>

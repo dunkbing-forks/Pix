@@ -35,46 +35,30 @@ const HomeStack = () => {
 
   return (
     <HomeNav.Navigator>
+      <HomeNav.Screen name='Home' options={{ headerShown: false }} component={Home} />
       <HomeNav.Screen
-        name="Home"
-        options={{ headerShown: false }}
-        component={Home}
-      />
-      <HomeNav.Screen
-        name="Profile"
+        name='Profile'
         component={Profile}
         options={({ navigation, route }) => ({
           headerRight: () => (
             <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
-              <Icon name="Settings" size={25} color={colors.text} />
+              <Icon name='Settings' size={25} color={colors.text} />
             </TouchableOpacity>
-          )
+          ),
         })}
       />
+      <HomeNav.Screen name='EditProfile' component={EditProfile} options={{ headerTitle: 'Edit your profile' }} />
+      <HomeNav.Screen name='Settings' component={Settings} />
+      <HomeNav.Screen name='About' component={About} />
+      <HomeNav.Screen name='Licenses' component={Licenses} />
+      <HomeNav.Screen name='Tips' component={Tips} options={{ headerTitle: 'Tip Jar' }} />
+      <HomeNav.Screen name='Appearance' component={Appearance} options={{ headerTitle: 'Theme' }} />
       <HomeNav.Screen
-        name="EditProfile"
-        component={EditProfile}
-        options={{ headerTitle: 'Edit your profile' }}
-      />
-      <HomeNav.Screen name="Settings" component={Settings} />
-      <HomeNav.Screen name="About" component={About} />
-      <HomeNav.Screen name="Licenses" component={Licenses} />
-      <HomeNav.Screen
-        name="Tips"
-        component={Tips}
-        options={{ headerTitle: 'Tip Jar' }}
-      />
-      <HomeNav.Screen
-        name="Appearance"
-        component={Appearance}
-        options={{ headerTitle: 'Theme' }}
-      />
-      <HomeNav.Screen
-        name="PostDetails"
+        name='PostDetails'
         component={PostDetails}
         options={{
           headerTitle: 'Comments',
-          stackPresentation: 'modal'
+          stackPresentation: 'modal',
         }}
       />
     </HomeNav.Navigator>
@@ -85,91 +69,55 @@ const ChallengesStack = () => {
   const { colors } = useTheme();
   return (
     <ChallengesNav.Navigator>
+      <ChallengesNav.Screen name='Challenges' component={Challenges} options={{ headerShown: false }} />
       <ChallengesNav.Screen
-        name="Challenges"
-        component={Challenges}
-        options={{ headerShown: false }}
-      />
-      <ChallengesNav.Screen
-        name="Profile"
+        name='Profile'
         component={Profile}
         options={({ navigation, route }) => ({
           headerRight: () => (
             <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
-              <Icon name="Settings" size={25} color={colors.text} />
+              <Icon name='Settings' size={25} color={colors.text} />
             </TouchableOpacity>
-          )
+          ),
         })}
       />
-      <ChallengesNav.Screen
-        name="EditProfile"
-        component={EditProfile}
-        options={{ headerTitle: 'Edit your profile' }}
-      />
-      <ChallengesNav.Screen name="Settings" component={Settings} />
-      <ChallengesNav.Screen name="About" component={About} />
-      <ChallengesNav.Screen name="Licenses" component={Licenses} />
-      <ChallengesNav.Screen
-        name="Tips"
-        component={Tips}
-        options={{ headerTitle: 'Tip Jar' }}
-      />
-      <ChallengesNav.Screen
-        name="Appearance"
-        component={Appearance}
-        options={{ headerTitle: 'Theme' }}
-      />
+      <ChallengesNav.Screen name='EditProfile' component={EditProfile} options={{ headerTitle: 'Edit your profile' }} />
+      <ChallengesNav.Screen name='Settings' component={Settings} />
+      <ChallengesNav.Screen name='About' component={About} />
+      <ChallengesNav.Screen name='Licenses' component={Licenses} />
+      <ChallengesNav.Screen name='Tips' component={Tips} options={{ headerTitle: 'Tip Jar' }} />
+      <ChallengesNav.Screen name='Appearance' component={Appearance} options={{ headerTitle: 'Theme' }} />
     </ChallengesNav.Navigator>
   );
 };
 
 export const TabsStack = () => (
   <Tab.Navigator tabBar={Tabbar}>
-    <Tab.Screen name="Home" component={HomeStack} />
-    <Tab.Screen name="Editor" component={Editor} />
-    <Tab.Screen name="Challenges" component={ChallengesStack} />
+    <Tab.Screen name='Home' component={HomeStack} />
+    <Tab.Screen name='Editor' component={Editor} />
+    <Tab.Screen name='Challenges' component={ChallengesStack} />
   </Tab.Navigator>
 );
 
 export const LoginStack = () => (
   <LoginNav.Navigator>
     <LoginNav.Screen
-      name="LoginSelection"
+      name='LoginSelection'
       component={LoginSelection}
       options={({ navigation, route }) => ({
-        headerLeft: () => <Button onPress={navigation.goBack} title="Close" />,
-        headerTitle: 'Login'
+        headerLeft: () => <Button onPress={navigation.goBack} title='Close' />,
+        headerTitle: 'Login',
       })}
     />
-    <LoginNav.Screen
-      name="Login"
-      component={Login}
-      options={{ headerTitle: 'Sign in' }}
-    />
-    <LoginNav.Screen
-      name="AccountCreation"
-      component={AccountCreation}
-      options={{ headerTitle: 'Create your account' }}
-    />
-    <LoginNav.Screen
-      name="AccountPasswordCreation"
-      component={AccountPasswordCreation}
-      options={{ headerTitle: 'Create a password' }}
-    />
+    <LoginNav.Screen name='Login' component={Login} options={{ headerTitle: 'Sign in' }} />
+    <LoginNav.Screen name='AccountCreation' component={AccountCreation} options={{ headerTitle: 'Create your account' }} />
+    <LoginNav.Screen name='AccountPasswordCreation' component={AccountPasswordCreation} options={{ headerTitle: 'Create a password' }} />
   </LoginNav.Navigator>
 );
 
 export const EditorStack = () => (
   <EditorNav.Navigator>
-    <EditorNav.Screen
-      name="Edit"
-      component={Editor}
-      options={{ headerShown: false, stackPresentation: 'modal' }}
-    />
-    <EditorNav.Screen
-      name="Publish"
-      component={Publish}
-      options={{ headerShown: false }}
-    />
+    <EditorNav.Screen name='Edit' component={Editor} options={{ headerShown: false, stackPresentation: 'modal' }} />
+    <EditorNav.Screen name='Publish' component={Publish} options={{ headerShown: false }} />
   </EditorNav.Navigator>
 );

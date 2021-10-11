@@ -4781,10 +4781,7 @@
     "licenseFile": "/Users/maxime/Developer/pix/node_modules/table/node_modules/json-schema-traverse/LICENSE"
   },
   "json-schema@0.2.3": {
-    "licenses": [
-      "AFLv2.1",
-      "BSD"
-    ],
+    "licenses": ["AFLv2.1", "BSD"],
     "repository": "https://github.com/kriszyp/json-schema",
     "publisher": "Kris Zyp",
     "path": "/Users/maxime/Developer/pix/node_modules/json-schema",
@@ -8473,4 +8470,3 @@
     "licenseFile": "/Users/maxime/Developer/pix/node_modules/yargs/LICENSE"
   }
 }
-
