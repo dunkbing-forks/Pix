@@ -1,6 +1,6 @@
-import { useTheme } from '@react-navigation/native';
 import React from 'react';
 import { ActivityIndicator, ViewStyle } from 'react-native';
+import { useCustomTheme } from '../theme';
 import styled from 'styled-components/native';
 
 import { BUTTON_WIDTH } from '../constants';
@@ -31,7 +31,7 @@ interface Props {
 }
 
 const Button = ({ onPress, title, fill = true, style, loading = false, disabled = false }: Props) => {
-  const { colors } = useTheme();
+  const { colors } = useCustomTheme();
 
   return (
     <Wrapper style={{ ...style }} onPress={onPress} fill={fill} disabled={disabled || loading}>

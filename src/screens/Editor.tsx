@@ -1,6 +1,6 @@
 import { useFocusEffect, useNavigation, useTheme } from '@react-navigation/native';
 import React, { useState, useContext, useEffect } from 'react';
-import { ScrollView, Alert, TouchableOpacity, Dimensions } from 'react-native';
+import { ScrollView, Alert, TouchableOpacity, Dimensions, View, Text } from 'react-native';
 import ColorPicker from 'react-native-color-picker-ios';
 import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
@@ -96,7 +96,7 @@ const Editor = ({ route }) => {
     React.useCallback(() => {
       setCanvasData(route.params?.data?.data?.pixels || getInitialCanvasData());
       setBackgroundColor(route.params?.data?.data?.backgroundColor || DEFAULT_EDITOR_BACKGROUND_COLOR);
-    }, [route.params])
+    }, [route.params]),
   );
 
   useEffect(() => {
@@ -119,7 +119,7 @@ const Editor = ({ route }) => {
 
   const nonEmpty = canvasData.some((item) => item.color !== 'none');
 
-  const sheetRef = React.useRef(null);
+  const sheetRef = React.useRef<BottomSheet>(null);
 
   return (
     <>
@@ -152,7 +152,7 @@ const Editor = ({ route }) => {
                       },
                     },
                   ],
-                  { cancelable: false }
+                  { cancelable: false },
                 );
               } else {
                 goBack();
@@ -246,7 +246,7 @@ const Editor = ({ route }) => {
             title='Change color palette'
             onPress={() => {
               setDrawerShown(true);
-              sheetRef.current.snapTo(0);
+              sheetRef.current?.snapTo(0);
             }}
             fill={false}
           />
@@ -261,7 +261,7 @@ const Editor = ({ route }) => {
           Palettes((palette) => {
             setColorPalette([...palette]);
             setCurrentColor(palette[0]);
-            sheetRef.current.snapTo(1);
+            sheetRef.current?.snapTo(1);
           })
         }
         callbackNode={fall}

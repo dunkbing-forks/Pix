@@ -32,7 +32,6 @@ module.exports = {
     'react/display-name': 'off',
     'react/prop-types': 'off',
     'no-empty-function': 'off',
-    'allowEmptyCatch': true,
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-unsafe-assignment': 'off',
     '@typescript-eslint/no-unsafe-member-access': 'off',

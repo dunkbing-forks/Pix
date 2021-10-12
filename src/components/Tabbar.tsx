@@ -1,8 +1,8 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { useTheme } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { View, Dimensions, Animated } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useCustomTheme } from '../theme';
 import styled from 'styled-components/native';
 
 import { TABBAR_HEIGHT } from '../constants';
@@ -40,7 +40,7 @@ interface Props {
 
 const TabbarComponent = ({ props }: Props) => {
   const insets = useSafeAreaInsets();
-  const { colors } = useTheme();
+  const { colors } = useCustomTheme();
   const [switchAnim] = useState(new Animated.Value(0));
 
   const tabbarWidth = Dimensions.get('window').width - 32;
@@ -52,7 +52,6 @@ const TabbarComponent = ({ props }: Props) => {
   useEffect(() => {
     Animated.spring(switchAnim, {
       toValue: props.state.index,
-      duration: 250,
       useNativeDriver: false,
     }).start();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -88,7 +87,7 @@ const TabbarComponent = ({ props }: Props) => {
             >
               <Icon name='Add' size={40} color={colors.text} />
             </PressableWrapper>
-          )
+          ),
         )}
         <TabIndicatorWrapper
           style={{
@@ -104,6 +103,6 @@ const TabbarComponent = ({ props }: Props) => {
   );
 };
 
-const Tabbar: React.FC = (routeProps) => <TabbarComponent props={routeProps} />;
+const Tabbar = (routeProps: BottomTabBarProps): JSX.Element => <TabbarComponent props={routeProps} />;
 
 export default Tabbar;

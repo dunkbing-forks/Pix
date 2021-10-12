@@ -1,5 +1,6 @@
-import { useTheme } from '@react-navigation/native';
+/* eslint-disable indent */
 import React from 'react';
+import { useCustomTheme } from '../theme';
 import styled from 'styled-components/native';
 
 import Icon from './Icon';
@@ -29,8 +30,8 @@ interface Props {
   icon: string;
 }
 
-const IconButton = ({ title, onPress, active, color = 'green', icon }: Props) => {
-  const { colors } = useTheme();
+const IconButton = ({ title, onPress, active, color = 'green', icon }: Props): JSX.Element => {
+  const { colors } = useCustomTheme();
   const localColors =
     color === 'green'
       ? active

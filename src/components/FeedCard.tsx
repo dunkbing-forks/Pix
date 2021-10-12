@@ -1,14 +1,15 @@
-import firestore from '@react-native-firebase/firestore';
+import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import React, { useContext, useState, useEffect, useMemo } from 'react';
-import { Dimensions, TouchableOpacity, Alert, View } from 'react-native';
+import { Dimensions, TouchableOpacity, Alert, View, AlertButton } from 'react-native';
 import styled from 'styled-components/native';
 
 import { MONTHS } from '../constants';
-import User from '../stores/User';
+import User, { UserData } from '../stores/User';
 import { SCREEN_PADDING } from '../theme';
-import { Pixel } from '../types';
+import { Pixel, RootStackProps } from '../types';
 import Avatar from './Avatar';
+import { CommentProps } from './Comment';
 import Icon from './Icon';
 import PixelArt from './PixelArt';
 
@@ -87,8 +88,8 @@ interface Props {
   avatar?: string;
   desc?: string;
   timestamp?: number;
-  userRef: any;
-  comments: any[];
+  userRef: FirebaseFirestoreTypes.DocumentReference<FirebaseFirestoreTypes.DocumentData>;
+  comments: CommentProps[];
 }
 
 const FeedCard = ({
@@ -106,12 +107,12 @@ const FeedCard = ({
   userRef,
   timestamp,
   comments = [],
-}: Props) => {
+}: Props): JSX.Element => {
   const { colors } = useTheme();
   const userStore = useContext(User);
-  const navigation = useNavigation();
+  const navigation = useNavigation<RootStackProps>();
 
-  const [userInfos, setUserInfos] = useState({ avatar, displayName: userName });
+  const [userInfos, setUserInfos] = useState<UserData>({ avatar, displayName: userName });
   const [loading, setLoading] = useState(false);
 
   // Avoid re-rendering the whole flatlist for liking a post
@@ -124,7 +125,7 @@ const FeedCard = ({
       userRef
         .get()
         .then((userData) => {
-          const { displayName, avatar } = userData.data();
+          const { displayName, avatar } = { displayName: '', avatar: '', ...userData.data() };
           setUserInfos({ displayName, avatar });
         })
         .finally(() => {
@@ -145,6 +146,31 @@ const FeedCard = ({
   const goToDetails = () => {
     navigation.navigate('PostDetails', { comments, id });
   };
+
+  const alertButtons: AlertButton[] = [
+    {
+      text: 'Report',
+      onPress: onReport,
+      style: 'destructive',
+    },
+    {
+      text: 'Cancel',
+      style: 'cancel',
+      onPress: () => {},
+    },
+  ];
+  userStore.isAdmin &&
+    alertButtons.push({
+      text: 'Delete',
+      style: 'destructive',
+      onPress: () => {
+        firestore()
+          .collection('Posts')
+          .doc(`${id}`)
+          .delete()
+          .then(() => Alert.alert('💥', 'Removed post'));
+      },
+    });
 
   return (
     <Wrapper onPress={goToDetails}>
@@ -184,29 +210,7 @@ const FeedCard = ({
               `Help us get rid of low quality posts (such as innapropriate content or low-effort)${
                 userStore.isAdmin ? `\n\nID: ${id}` : ''
               }`,
-              [
-                {
-                  text: 'Report',
-                  onPress: onReport,
-                  style: 'destructive',
-                },
-                {
-                  text: 'Cancel',
-                  style: 'cancel',
-                  onPress: () => {},
-                },
-                userStore.isAdmin && {
-                  text: 'Delete',
-                  style: 'destructive',
-                  onPress: () => {
-                    firestore()
-                      .collection('Posts')
-                      .doc(`${id}`)
-                      .delete()
-                      .then(() => Alert.alert('💥', 'Removed post'));
-                  },
-                },
-              ]
+              alertButtons,
             );
           }}
         >

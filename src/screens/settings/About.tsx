@@ -57,9 +57,7 @@ const AppIcon = styled.Image`
   margin-right: 10px;
 `;
 
-const AppIconImage = require('../../../assets/images/logo_black.png');
-
-const About = () => {
+const About = (): JSX.Element => {
   const userStore = useContext(User);
 
   useEffect(() => {
@@ -68,7 +66,7 @@ const About = () => {
         .collection('Admins')
         .get()
         .then((data) => {
-          if (data.docs.findIndex((user) => user.data().id === userStore.user.uid) >= 0) {
+          if (data.docs.findIndex((user) => user.data().id === userStore?.user?.uid) >= 0) {
             userStore.promote();
             Alert.alert('The maker!', 'You are now signed in as an admin, granting you total power on every post in the App.', [
               { text: 'Cool!' },
@@ -82,7 +80,7 @@ const About = () => {
   return (
     <Wrapper>
       <Header>
-        <AppIcon source={AppIconImage} />
+        <AppIcon source={require('../../../assets/images/logo_black.png')} />
         <View>
           <InfosTitle>Pix {version}</InfosTitle>
           <InfosText>by Maxime Nory</InfosText>

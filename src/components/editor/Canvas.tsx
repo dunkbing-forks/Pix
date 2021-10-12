@@ -20,7 +20,7 @@ const Grid = styled.View`
   flex-wrap: wrap;
 `;
 
-const PixelBlock = styled.View`
+const PixelBlock = styled.View<{color: string, backgroundColor: string, displayGrid: boolean, index: number}>`
   background: ${({ color, backgroundColor }) => (color === 'none' ? backgroundColor : color)};
   height: ${PIXEL_SIZE}px;
   width: ${PIXEL_SIZE}px;

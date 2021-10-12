@@ -2,7 +2,7 @@ import { makeObservable, observable, action, runInAction } from 'mobx';
 import { createContext } from 'react';
 import { Alert } from 'react-native';
 import { MONTHS, STATES } from '../constants';
-import firestore from '@react-native-firebase/firestore';
+import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { firebase } from '@react-native-firebase/auth';
 
 const PAGE_ITEMS = 5;
@@ -23,9 +23,9 @@ class Challenge {
     });
   }
 
-  challenges = null;
-  currentChallenge = null;
-  lastSnapshot = null;
+  challenges: { id: string, likes: any, likesCount: number }[] = [];
+  currentChallenge: FirebaseFirestoreTypes.DocumentData | null = null;
+  lastSnapshot: FirebaseFirestoreTypes.QueryDocumentSnapshot<FirebaseFirestoreTypes.DocumentData> | null = null;
   sort: 'timestamp' | 'likesCount' = 'timestamp';
   state = STATES.IDLE;
 
@@ -50,11 +50,11 @@ class Challenge {
     try {
       const snapshot = await firestore()
         .collection('Posts')
-        .where('tag', '==', this.currentChallenge.id)
+        .where('tag', '==', this.currentChallenge?.id)
         .orderBy(this.sort, 'desc')
         .limit(PAGE_ITEMS)
         .get();
-      const newChallenges = [];
+      const newChallenges: any[] = [];
       snapshot.forEach((doc) => {
         newChallenges.push({ ...doc.data(), id: doc.id });
       });
@@ -77,13 +77,13 @@ class Challenge {
       try {
         const snapshot = await firestore()
           .collection('Posts')
-          .where('tag', '==', this.currentChallenge.id)
+          .where('tag', '==', this.currentChallenge?.id)
           .orderBy(this.sort, 'desc')
           .startAfter(this.lastSnapshot)
           .limit(PAGE_ITEMS)
           .get();
 
-        const newFeed = [];
+        const newFeed: any[] = [];
         snapshot.forEach((doc) => {
           newFeed.push({ ...doc.data(), id: doc.id });
         });
@@ -101,7 +101,7 @@ class Challenge {
     }
   }
 
-  async likePost(postId, userId, likes) {
+  async likePost(postId: string, userId: string, likes: Array<any>) {
     const likesRef = firestore().collection('Posts').doc(postId);
     if (likes.includes(userId)) {
       likesRef.update({
@@ -116,8 +116,8 @@ class Challenge {
     }
     const newPostData = await firestore().collection('Posts').doc(postId).get();
     runInAction(() => {
-      this.challenges[this.challenges.findIndex((i) => i.id === postId)].likes = newPostData.data().likes;
-      this.challenges[this.challenges.findIndex((i) => i.id === postId)].likesCount = newPostData.data().likesCount;
+      this.challenges[this.challenges.findIndex((i) => i.id === postId)].likes = newPostData.data()?.likes;
+      this.challenges[this.challenges.findIndex((i) => i.id === postId)].likesCount = newPostData.data()?.likesCount;
     });
   }
 
@@ -126,11 +126,11 @@ class Challenge {
   }
 
   clearChallenges() {
-    this.challenges = null;
+    this.challenges = [];
     this.lastSnapshot = null;
   }
 
-  async reportPost(postId) {
+  async reportPost(postId: string) {
     const postRef = firestore().collection('Posts').doc(postId);
     await postRef.update({
       reports: firebase.firestore.FieldValue.increment(1),

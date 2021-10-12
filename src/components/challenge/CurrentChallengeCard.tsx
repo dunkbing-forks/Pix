@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { ImageSourcePropType, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { RootStackProps } from '../../types';
 import styled from 'styled-components/native';
 
 import { MONTHS_FULL } from '../../constants';
@@ -61,14 +62,20 @@ interface Props {
 
 const currentMonth = MONTHS_FULL[new Date().getMonth()];
 
-const CurrentChallengeCard = ({ challengeTitle }: Props) => {
-  const [challengeImageURL, setChallengeImageURL] = useState(undefined);
+const CurrentChallengeCard = ({ challengeTitle }: Props): JSX.Element => {
+  const [challengeImageURL, setChallengeImageURL] = useState<string>('');
 
   useEffect(() => {
-    storage().ref(`challenges/${currentMonth.toLowerCase()}.png`).getDownloadURL().then(setChallengeImageURL);
+    storage()
+      .ref(`challenges/${currentMonth.toLowerCase()}.png`)
+      .getDownloadURL()
+      .then(setChallengeImageURL)
+      .catch(() => {
+        // TODO: handle later
+      });
   }, []);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<RootStackProps>();
   return (
     <Wrapper source={{ uri: challengeImageURL }} resizeMode='cover'>
       <ContentWrapper colors={['#00000000', '#00000099']}>

@@ -3,8 +3,10 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { View } from 'react-native';
 import styled from 'styled-components/native';
 
+import { CommentModel } from '../models/comment';
 import { MONTHS } from '../constants';
 import Avatar from './Avatar';
+import { UserDataModel } from '../models/user';
 
 const Row = styled.View`
   flex-direction: row;
@@ -53,14 +55,10 @@ const DateText = styled.Text`
   margin-left: 10px;
 `;
 
-interface Props {
-  userRef: any;
-  text: string;
-  timestamp: number;
-}
+type Props = CommentModel;
 
 const Comment = observer(({ userRef, text, timestamp }: Props) => {
-  const [userInfos, setUserInfos] = useState<any>(undefined);
+  const [userInfos, setUserInfos] = useState<UserDataModel | null>();
   const [loading, setLoading] = useState(false);
 
   const date = useMemo(() => {
@@ -77,8 +75,8 @@ const Comment = observer(({ userRef, text, timestamp }: Props) => {
       userRef
         .get()
         .then((userData) => {
-          const { displayName, avatar } = userData.data();
-          setUserInfos({ displayName, avatar });
+          const { displayName, avatar } = { displayName: '', avatar: '', ...userData.data() };
+          setUserInfos({ ...userInfos, displayName, avatar });
         })
         .finally(() => {
           setLoading(false);
@@ -88,7 +86,7 @@ const Comment = observer(({ userRef, text, timestamp }: Props) => {
 
   return (
     <Wrapper>
-      <Row noMargins>
+      <Row>
         {loading ? (
           <>
             <LoadingAvatar />

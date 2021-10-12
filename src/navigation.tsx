@@ -35,11 +35,11 @@ const HomeStack = () => {
 
   return (
     <HomeNav.Navigator>
-      <HomeNav.Screen name='Home' options={{ headerShown: false }} component={Home} />
+      <HomeNav.Screen name='HomeNav' options={{ headerShown: false }} component={Home} />
       <HomeNav.Screen
         name='Profile'
         component={Profile}
-        options={({ navigation, route }) => ({
+        options={({ navigation }) => ({
           headerRight: () => (
             <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
               <Icon name='Settings' size={25} color={colors.text} />
@@ -73,7 +73,7 @@ const ChallengesStack = () => {
       <ChallengesNav.Screen
         name='Profile'
         component={Profile}
-        options={({ navigation, route }) => ({
+        options={({ navigation }) => ({
           headerRight: () => (
             <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
               <Icon name='Settings' size={25} color={colors.text} />
@@ -91,20 +91,20 @@ const ChallengesStack = () => {
   );
 };
 
-export const TabsStack = () => (
-  <Tab.Navigator tabBar={Tabbar}>
-    <Tab.Screen name='Home' component={HomeStack} />
+export const TabsStack = (): JSX.Element => (
+  <Tab.Navigator tabBar={Tabbar} screenOptions={{ headerShown: false }}>
+    <Tab.Screen options={{ title: undefined }} name='Home' component={HomeStack} />
     <Tab.Screen name='Editor' component={Editor} />
     <Tab.Screen name='Challenges' component={ChallengesStack} />
   </Tab.Navigator>
 );
 
-export const LoginStack = () => (
+export const LoginStack = (): JSX.Element => (
   <LoginNav.Navigator>
     <LoginNav.Screen
       name='LoginSelection'
       component={LoginSelection}
-      options={({ navigation, route }) => ({
+      options={({ navigation }) => ({
         headerLeft: () => <Button onPress={navigation.goBack} title='Close' />,
         headerTitle: 'Login',
       })}
@@ -115,7 +115,7 @@ export const LoginStack = () => (
   </LoginNav.Navigator>
 );
 
-export const EditorStack = () => (
+export const EditorStack = (): JSX.Element => (
   <EditorNav.Navigator>
     <EditorNav.Screen name='Edit' component={Editor} options={{ headerShown: false, stackPresentation: 'modal' }} />
     <EditorNav.Screen name='Publish' component={Publish} options={{ headerShown: false }} />

@@ -1,11 +1,11 @@
 import auth from '@react-native-firebase/auth';
-import { useTheme } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { Alert, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 
 import Button from '../components/Button';
 import { BUTTON_WIDTH } from '../constants';
+import { useCustomTheme } from '../theme';
 
 const Wrapper = styled.KeyboardAvoidingView`
   align-items: center;
@@ -44,15 +44,13 @@ const ResetPassword = styled.Text`
   text-decoration-color: ${({ theme }) => theme.text};
 `;
 
-const Chick = require('../../assets/images/chick.png');
-
-const Login = () => {
+const Login = (): JSX.Element => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const { colors } = useTheme();
+  const { colors } = useCustomTheme();
 
   const login = () => {
     setLoading(true);
@@ -85,7 +83,7 @@ const Login = () => {
         Alert.alert('Check your mailbox!', `We sent you an email to ${email} to help you reset your password.`);
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(() => {
         Alert.alert('Error 😢', `We tried to send an email to ${email} but something unexpected happened. Make sure the address is valid.`);
         setLoading(false);
       });
@@ -93,7 +91,7 @@ const Login = () => {
 
   return (
     <Wrapper behavior='padding'>
-      <Image source={Chick} />
+      <Image source={require('../../assets/images/chick.png')} />
       <Title>Welcome back!</Title>
       <TextInput
         value={email}
@@ -102,7 +100,7 @@ const Login = () => {
         autoCapitalize='none'
         onChangeText={setEmail}
         style={{ color: colors.text }}
-        autocompleteType='email'
+        autoCompleteType='email'
         keyboardType='email-address'
       />
       <TextInput

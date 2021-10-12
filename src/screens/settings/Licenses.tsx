@@ -1,10 +1,12 @@
 import React from 'react';
-import { FlatList, TouchableOpacity, Linking } from 'react-native';
+import { FlatList, Linking, ListRenderItemInfo } from 'react-native';
+import { License } from 'src/types';
 import styled from 'styled-components/native';
 
 import { SCREEN_PADDING } from '../../theme';
 
-const licenses = require('./licenses.json');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const licenses: { [key: string]: License } = require('./licenses.json');
 
 const TitleWrapper = styled.View`
   padding: ${SCREEN_PADDING}px;
@@ -46,7 +48,7 @@ const TouchableWrapper = styled.TouchableOpacity`
   background: ${({ theme }) => theme.secondary};
 `;
 
-const renderItem = ({ item }) => (
+const renderItem = ({ item }: ListRenderItemInfo<string>) => (
   <TouchableWrapper onPress={() => Linking.openURL(licenses[item].repository)}>
     <LicenseTitle>{item}</LicenseTitle>
     <DescWrapper>
@@ -56,7 +58,7 @@ const renderItem = ({ item }) => (
   </TouchableWrapper>
 );
 
-const Licenses = () => (
+const Licenses = (): JSX.Element => (
   <>
     <TitleWrapper>
       <Title>Open Source Licenses</Title>
@@ -67,7 +69,7 @@ const Licenses = () => (
       data={Object.keys(licenses)}
       keyExtractor={(item) => item}
       renderItem={renderItem}
-      removeClippedSubview
+      removeClippedSubviews
     />
   </>
 );

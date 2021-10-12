@@ -1,9 +1,12 @@
 import { Pixel, Themes } from './types';
-import { darkTheme, lightTheme } from './theme';
+import { darkTheme, lightTheme, CustomTheme } from './theme';
 import { ColorSchemeName } from 'react-native-appearance';
 import { PIXEL_COUNT } from './constants';
 
-export const getColorScheme = (theme: Themes, scheme: ColorSchemeName) => {
+export const getColorScheme = (
+  theme: Themes,
+  scheme: ColorSchemeName,
+): { theme: CustomTheme; statusBarStyle: 'light-content' | 'dark-content' } => {
   if (theme === Themes.automatic) {
     if (scheme === 'dark') {
       return { theme: darkTheme, statusBarStyle: 'light-content' };
@@ -12,20 +15,20 @@ export const getColorScheme = (theme: Themes, scheme: ColorSchemeName) => {
     }
   } else if (theme === Themes.light) {
     return { theme: lightTheme, statusBarStyle: 'dark-content' };
-  } else if (theme === Themes.dark) {
+  } else {
     return { theme: darkTheme, statusBarStyle: 'light-content' };
   }
 };
 
-export const getInitialCanvasData = () =>
+export const getInitialCanvasData = (): Array<{ color: string }> =>
   Array.from(
     {
       length: PIXEL_COUNT * PIXEL_COUNT,
     },
-    () => ({ color: 'none' })
+    () => ({ color: 'none' }),
   );
 
-export const dropBucket = (data: Pixel[], dropIndex: number, color: string, initialColor: string, initialData: Pixel[]) => {
+export const dropBucket = (data: Pixel[], dropIndex: number, color: string, initialColor: string, initialData: Pixel[]): Array<Pixel> => {
   let newData = [...data];
 
   const topIndex = dropIndex - PIXEL_COUNT;

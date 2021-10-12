@@ -1,10 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
+import { RootStackProps } from '../types';
 import styled from 'styled-components/native';
 
 import Button from './Button';
-
-const Cactus = require('../../assets/images/cactus.png');
 
 const Wrapper = styled.View`
   align-items: center;
@@ -30,12 +29,12 @@ interface Props {
   hideAction?: boolean;
 }
 
-const Empty = ({ actionTitle = 'Create your first artwork!', hideAction = false }: Props) => {
-  const navigation = useNavigation();
+const Empty = ({ actionTitle = 'Create your first artwork!', hideAction = false }: Props): JSX.Element => {
+  const navigation = useNavigation<RootStackProps>();
   return (
     <Wrapper>
-      <Image source={Cactus} />
-      <InfosText>There's nothing to show here yet!</InfosText>
+      <Image source={require('../../assets/images/cactus.png')} />
+      <InfosText>There is nothing to show here yet!</InfosText>
       {!hideAction && <Button onPress={() => navigation.navigate('EditorModal')} fill={false} title={actionTitle} />}
     </Wrapper>
   );

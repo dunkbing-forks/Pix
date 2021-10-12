@@ -31,7 +31,7 @@ interface Props {
 }
 
 const Avatar = observer(({ size = 32, withBorder = false, name = 'cat-1', cloudRef }: Props) => {
-  const [uri, setUri] = useState<null | string>(null);
+  const [uri, setUri] = useState<undefined | string>(undefined);
 
   const imagesStore = useContext(Images);
 
@@ -42,10 +42,9 @@ const Avatar = observer(({ size = 32, withBorder = false, name = 'cat-1', cloudR
         .getDownloadURL()
         .then((url) => setUri(url));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const source = cloudRef ? { uri } : { uri: imagesStore?.avatars[name]?.url || null };
+  const source = cloudRef ? { uri } : { uri: imagesStore?.avatars[name]?.url };
 
   return (
     <Wrapper size={size} border={withBorder}>

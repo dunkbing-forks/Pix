@@ -1,8 +1,8 @@
-import { useTheme } from '@react-navigation/native';
 import React from 'react';
-import { ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheet';
+import { ViewStyle } from 'react-native';
 import styled from 'styled-components/native';
 
+import { useCustomTheme } from '../theme';
 import { PIXEL_COUNT } from '../constants';
 import { Pixel } from '../types';
 
@@ -43,8 +43,8 @@ interface Props {
   style?: ViewStyle;
 }
 
-const PixelArt = ({ data, backgroundColor, size, rounded = false, style }: Props) => {
-  const { colors } = useTheme();
+const PixelArt = ({ data, backgroundColor, size, rounded = false, style }: Props): JSX.Element => {
+  const { colors } = useCustomTheme();
 
   const pixelSize = size / (PIXEL_COUNT + 2);
 

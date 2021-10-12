@@ -4,13 +4,12 @@ import { appleAuth } from '@invertase/react-native-apple-authentication';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
-import React, { useContext } from 'react';
+import React from 'react';
 import { Platform, Alert } from 'react-native';
 import styled from 'styled-components/native';
 
 import Button from '../components/Button';
 import { BUTTON_WIDTH } from '../constants';
-import User from '../stores/User';
 
 const Wrapper = styled.View`
   align-items: center;
@@ -41,7 +40,6 @@ const Title = styled.Text`
 const Koala = require('../../assets/images/koala.png');
 
 const LoginSelection = () => {
-  const userStore = useContext(User);
 
   const onAppleButtonPress = async () => {
     // Start the sign-in request

@@ -1,8 +1,8 @@
-/* eslint-disable react-native/no-inline-styles */
-import { useNavigation, useTheme } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useCustomTheme } from '../theme';
 import styled from 'styled-components/native';
 
 import { HEADER_HEIGHT } from '../constants';
@@ -42,17 +42,17 @@ const EmptyPlaceholder = styled.View`
 interface Props {
   title: string;
   action?(): void;
-  leftComponent?: React.Component;
-  rightComponent?: React.Component;
+  leftComponent?: JSX.Element;
+  rightComponent?: JSX.Element;
   back?: boolean;
   close?: boolean;
   backAction?(): void;
 }
 
-const CustomHeader = ({ action, title, leftComponent, rightComponent, back, close, backAction }: Props) => {
+const CustomHeader = ({ action, title, leftComponent, rightComponent, back, close, backAction }: Props): JSX.Element => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
-  const { colors } = useTheme();
+  const { colors } = useCustomTheme();
 
   return (
     <Wrapper insetTop={insets.top}>
@@ -60,7 +60,10 @@ const CustomHeader = ({ action, title, leftComponent, rightComponent, back, clos
         {leftComponent ? (
           leftComponent
         ) : back || close ? (
-          <TouchableOpacity onPress={backAction ? backAction : navigation.goBack} style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <TouchableOpacity
+            onPress={backAction ? backAction : () => navigation.goBack()}
+            style={{ flexDirection: 'row', alignItems: 'center' }}
+          >
             <Icon name={back ? 'ChevronLeft' : 'Cross'} color={colors.text} size={24} />
             <BackText>{back ? 'Back' : ''}</BackText>
           </TouchableOpacity>

@@ -1,15 +1,16 @@
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { firebase } from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
+import auth, { FirebaseAuthTypes, firebase } from '@react-native-firebase/auth';
+import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { makeObservable, observable, action, runInAction } from 'mobx';
 import { createContext } from 'react';
 import { Alert } from 'react-native';
 
+import { UserDataModel } from '../models/user';
 import { STATES } from '../constants';
+import { PostModel } from '../models/post';
 
 class User {
   constructor() {
-    auth().onAuthStateChanged((user) => this.onAuthStateChanged(user));
+    auth().onAuthStateChanged((user: FirebaseAuthTypes.User | null) => this.onAuthStateChanged(user));
     auth().onUserChanged((user) => this.onAuthStateChanged(user));
     makeObservable(this, {
       state: observable,
@@ -24,13 +25,13 @@ class User {
     });
   }
 
-  user = null;
-  userData = null;
-  posts = null;
+  user: FirebaseAuthTypes.User | null = null;
+  userData: UserDataModel | FirebaseFirestoreTypes.DocumentData | null | undefined = null;
+  posts: Array<PostModel> = [];
   isAdmin = false;
   state = STATES.IDLE;
 
-  onAuthStateChanged(user: FirebaseAuthTypes.User) {
+  onAuthStateChanged(user: FirebaseAuthTypes.User | null) {
     this.user = user;
     if (user) {
       firestore()
@@ -55,10 +56,10 @@ class User {
 
   async loadPosts() {
     this.state = STATES.LOADING;
-    const snapshot = await firestore().collection('Posts').where('user.id', '==', this.user.uid).orderBy('timestamp', 'desc').get();
-    const newPosts = [];
+    const snapshot = await firestore().collection('Posts').where('user.id', '==', this.user?.uid).orderBy('timestamp', 'desc').get();
+    const newPosts: PostModel[] = [];
     snapshot.forEach((doc) => {
-      newPosts.push({ ...doc.data(), id: doc.id });
+      newPosts.push({ ...(doc.data() as PostModel), id: doc.id });
     });
     runInAction(() => {
       this.state = STATES.SUCCESS;
@@ -67,14 +68,18 @@ class User {
   }
 
   addBadge(badge: string) {
-    if (this.userData.badges && !this.userData.badges.includes(badge)) {
-      const badgesRef = firestore().collection('Users').doc(this.user.uid);
+    if (!this.userData) return;
+
+    const badges: string[] | undefined = this.userData.badges;
+    if (badges && badges.includes(badge)) {
+      const badgesRef = firestore().collection('Users').doc(this.user?.uid);
       badgesRef
         .update({
           badges: firebase.firestore.FieldValue.arrayUnion(badge),
         })
-        .then(() => Alert.alert('Contrats! 🎉', 'You’ve earned a brand new badge for your participation in this month challenge!'));
-      this.userData.badges.push(badge);
+        .then(() => Alert.alert('Congrats! 🎉', 'You’ve earned a brand new badge for your participation in this month challenge!'));
+      badges.push(badge);
+      this.userData.badges = badges;
     }
   }
 }

@@ -38,12 +38,16 @@ const Row = styled.View`
   margin-bottom: 20px;
 `;
 
-const EditAvatar = (categories: object, onSelect: (name: string) => void) => (
+export type EditAvatarCategory = {
+  [key: string]: string[];
+};
+
+const EditAvatar = (categories: EditAvatarCategory, onSelect: (name: string) => void): JSX.Element => (
   <Wrapper>
     <Header />
     <ScrollView>
       {Object.keys(categories)?.map((key, index) => (
-        <View key={key + index}>
+        <View key={`${key}${index}`}>
           <Label>{key[0].toUpperCase() + key.slice(1)}</Label>
           <Row>
             {categories[key]?.map((name, index) => (

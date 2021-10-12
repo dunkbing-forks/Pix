@@ -1,9 +1,8 @@
-import { useNavigation, useTheme } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { useContext } from 'react';
-import { RefreshControl, TouchableOpacity, FlatList } from 'react-native';
-import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
+import { RefreshControl, TouchableOpacity, FlatList, ListRenderItemInfo, Pressable } from 'react-native';
 import styled from 'styled-components/native';
 
 import Avatar from '../components/Avatar';
@@ -15,7 +14,7 @@ import IconButton from '../components/IconButton';
 import { STATES } from '../constants';
 import Feed from '../stores/Feed';
 import User from '../stores/User';
-import { SCREEN_PADDING } from '../theme';
+import { SCREEN_PADDING, useCustomTheme } from '../theme';
 
 const Row = styled.View`
   flex-direction: row;
@@ -29,7 +28,7 @@ const Home = observer(() => {
   const navigation = useNavigation();
   const userStore = useContext(User);
   const feedStore = useContext(Feed);
-  const { colors } = useTheme();
+  const { colors } = useCustomTheme();
 
   useEffect(() => {
     feedStore.loadFeed();
@@ -58,7 +57,7 @@ const Home = observer(() => {
     </Pressable>
   );
 
-  const ListItem = ({ item }) => (
+  const ListItem = ({ item }: ListRenderItemInfo<any>) => (
     <FeedCard
       data={item.data.pixels}
       backgroundColor={item.data.backgroundColor}

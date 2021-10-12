@@ -1,6 +1,5 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import { useTheme } from '@react-navigation/native';
 import React, { useState, useContext } from 'react';
 import { Alert, TouchableOpacity } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -9,11 +8,11 @@ import styled from 'styled-components/native';
 
 import Avatar from '../../components/Avatar';
 import Button from '../../components/Button';
-import EditAvatar from '../../components/settings/EditAvatar';
+import EditAvatar, { EditAvatarCategory } from '../../components/settings/EditAvatar';
 import { BUTTON_WIDTH, STATES } from '../../constants';
 import Images from '../../stores/Images';
 import User from '../../stores/User';
-import { SCREEN_PADDING } from '../../theme';
+import { SCREEN_PADDING, useCustomTheme } from '../../theme';
 
 const Wrapper = styled.ScrollView`
   padding: 20px ${SCREEN_PADDING}px 10px ${SCREEN_PADDING}px;
@@ -65,17 +64,17 @@ const OpacityView = styled(Animated.View)`
   z-index: 1;
 `;
 
-const EditProfile = () => {
+const EditProfile = (): JSX.Element => {
   const userStore = useContext(User);
   const imagesStore = useContext(Images);
-  const { colors } = useTheme();
+  const { colors } = useCustomTheme();
 
   const [status, setStatus] = useState(STATES.IDLE);
-  const [username, setUsername] = useState(userStore.user.displayName);
+  const [username, setUsername] = useState(userStore.user?.displayName);
   const [drawerShown, setDrawerShown] = useState(false);
-  const [avatar, setAvatar] = useState(userStore.userData?.avatar || 'cat-1');
+  const [avatar, setAvatar] = useState<string>(userStore.userData?.avatar || 'cat-1');
 
-  let fall = new Animated.Value(1);
+  const fall = new Animated.Value(1);
 
   const update = () => {
     setStatus(STATES.LOADING);
@@ -85,8 +84,8 @@ const EditProfile = () => {
       badges: [],
     };
     auth()
-      .currentUser.updateProfile(update)
-      .then(() => firestore().collection('Users').doc(userStore.user.uid).update(update))
+      .currentUser?.updateProfile(update)
+      .then(() => firestore().collection('Users').doc(userStore.user?.uid).update(update))
       .then(() => {
         setStatus(STATES.SUCCESS);
       })
@@ -98,7 +97,7 @@ const EditProfile = () => {
   const resetPassword = () => {
     setStatus(STATES.LOADING);
     auth()
-      .sendPasswordResetEmail(userStore.user.email)
+      .sendPasswordResetEmail(userStore.user?.email || '')
       .then(() => {
         Alert.alert('Check your mailbox!', 'We sent you an email to help you reset your password.');
         setStatus(STATES.IDLE);
@@ -108,21 +107,21 @@ const EditProfile = () => {
       });
   };
 
-  const setNewAvatar = (newAvatar) => {
+  const setNewAvatar = (newAvatar: string) => {
     if (newAvatar) {
       setAvatar(newAvatar);
     }
-    sheetRef.current.snapTo(1);
+    sheetRef.current?.snapTo(1);
   };
 
-  const sheetRef = React.useRef(null);
+  const sheetRef = React.useRef<BottomSheet>(null);
 
   const animatedShadowOpacity = Animated.interpolate(fall, {
     inputRange: [0, 1],
     outputRange: [0.5, 0],
   });
 
-  const categories = {};
+  const categories: EditAvatarCategory = {};
 
   Object.keys(imagesStore.avatars).forEach((key) => {
     const avatar = imagesStore.avatars[key];
@@ -141,7 +140,7 @@ const EditProfile = () => {
         <Button
           onPress={() => {
             setDrawerShown(true);
-            sheetRef.current.snapTo(0);
+            sheetRef.current?.snapTo(0);
           }}
           title='Edit profile picture'
           fill={false}
@@ -149,7 +148,7 @@ const EditProfile = () => {
         />
         <Label>Username</Label>
         <TextInput
-          value={username}
+          value={username || ''}
           placeholder='New username'
           maxLength={20}
           autoCapitalize='none'
@@ -159,7 +158,7 @@ const EditProfile = () => {
         />
         <Label>Your email</Label>
         <TextInput
-          value={userStore.user.email}
+          value={userStore.user?.email || ''}
           placeholder='New email'
           editable={false}
           autoCapitalize='none'
@@ -191,7 +190,7 @@ const EditProfile = () => {
           <StatusText color={colors.error}>We’re having some troubles updating your profile 😥{'\n'}Try again later!</StatusText>
         )}
         {status === STATES.SUCCESS && <StatusText color={colors.success}>Your modifications have been saved !</StatusText>}
-        <Footer>ID - {userStore.user.uid}</Footer>
+        <Footer>ID - {userStore.user?.uid}</Footer>
       </Wrapper>
       <BottomSheet
         ref={sheetRef}

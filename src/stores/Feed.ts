@@ -21,10 +21,10 @@ class Feed {
     });
   }
 
-  feed = null;
   state = STATES.IDLE;
-  lastSnapshot = null;
+  feed = null;
   sort: 'timestamp' | 'likesCount' = 'likesCount';
+  lastSnapshot = null;
 
   async loadFeed() {
     this.state = STATES.LOADING;

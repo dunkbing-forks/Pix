@@ -1,12 +1,13 @@
 import React, { useState, useContext } from 'react';
 import { Dimensions, Switch, ActivityIndicator, KeyboardAvoidingView } from 'react-native';
-import PixelArt from '../components/PixelArt';
-import styled from 'styled-components/native';
-import CustomHeader from '../components/CustomHeader';
-import { SCREEN_PADDING } from '../theme';
 import firestore from '@react-native-firebase/firestore';
+import { useNavigation } from '@react-navigation/native';
+import styled from 'styled-components/native';
+
+import PixelArt from '../components/PixelArt';
+import CustomHeader from '../components/CustomHeader';
+import { SCREEN_PADDING, useCustomTheme } from '../theme';
 import User from '../stores/User';
-import { useNavigation, useTheme } from '@react-navigation/native';
 import Challenge from '../stores/Challenge';
 import Feed from '../stores/Feed';
 
@@ -67,7 +68,7 @@ const Publish = ({ route }) => {
   const [desc, setDesc] = useState('');
   const [tag, setTag] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { colors } = useTheme();
+  const { colors } = useCustomTheme();
   const navigation = useNavigation();
 
   const toggleSwitch = () => {
@@ -83,10 +84,10 @@ const Publish = ({ route }) => {
   const sendPost = () => {
     setLoading(true);
     const data = {
-      userRef: firestore().doc(`Users/${userStore.user.uid}`),
+      userRef: firestore().doc(`Users/${userStore.user?.uid as string}`),
       user: {
-        id: userStore.user.uid,
-        displayName: userStore.user.displayName,
+        id: userStore.user?.uid,
+        displayName: userStore.user?.displayName,
         avatar: userStore.userData?.avatar || 'cat-1',
       },
       data: {
@@ -144,7 +145,7 @@ const Publish = ({ route }) => {
           <PixelArt data={canvasData} backgroundColor={backgroundColor} size={Dimensions.get('window').width} />
           <ContentWrapper>
             <Row>
-              <Label style={{ flex: 1 }}>I’m participating in this month challenge ({challengeStore.currentChallenge.title})</Label>
+              <Label style={{ flex: 1 }}>I’m participating in this month challenge ({challengeStore.currentChallenge?.title})</Label>
               <Switch style={{ marginLeft: 20 }} onValueChange={toggleSwitch} value={!!tag} trackColor={{ true: colors.accent }} />
             </Row>
             <Label>A quick word about your masterpiece? (optional)</Label>

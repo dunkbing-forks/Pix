@@ -1,12 +1,13 @@
 import { firebase } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import { useNavigation, useTheme } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState, useContext } from 'react';
 import { ScrollView, Button, StatusBar, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
 
+import { useCustomTheme } from '../theme';
 import Comment from '../components/Comment';
 import Empty from '../components/Empty';
 import Icon from '../components/Icon';
@@ -54,7 +55,7 @@ const SendIconWrapper = styled.TouchableOpacity<{ insetBottom: number }>`
 
 const PostDetails = observer(({ route }) => {
   const navigation = useNavigation();
-  const { colors } = useTheme();
+  const { colors } = useCustomTheme();
 
   const userStore = useContext(User);
   const [comment, setComment] = useState('');
@@ -86,7 +87,7 @@ const PostDetails = observer(({ route }) => {
     postRef
       .update({
         comments: firebase.firestore.FieldValue.arrayUnion({
-          userRef: firestore().doc(`Users/${userStore.user.uid}`),
+          userRef: firestore().doc(`Users/${userStore.user?.uid as string}`),
           text: comment,
           timestamp: new Date().getTime(),
         }),
